@@ -7,14 +7,14 @@
 
 ## SECTION A
 
-|                     |                   |
-|---------------------|-------------------|
-|Project Title:       | xxxxxx            |
-|Student 1 Name:      | xxxxxx            |
-|Student 1 ID:        | xxxxxx            |
-|Student 2 Name:      | xxxxxx            |
-|Student 2 ID:        | xxxxxx            |
-|Project Supervisor:  | xxxxxx            |
+|                     |                    |
+|---------------------|--------------------|
+|Project Title:       | Lab Locator        |
+|Student 1 Name:      | Ethan Clarke       |
+|Student 1 ID:        | 19372086           |
+|Student 2 Name:      | Evelina Prosyankina|
+|Student 2 ID:        | 19368013           |
+|Project Supervisor:  | Darragh OBrien     |
 
 > Ensure that the Supervisor formally agrees to supervise your project; this is only recognised once the
 > Supervisor assigns herself/himself via the project Dashboard.
