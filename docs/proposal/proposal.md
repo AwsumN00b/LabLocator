@@ -148,5 +148,5 @@
 
 #### Evelina
 >- **UI Design**: Making the user experience of the application both usable and visually interesting, with the goal of using the app to not be burdensome on the user.
--**Formatting and displaying retrieved room data**: Transforming the retrieved room data from its raw form to a form that is more presentable and readable to users.
--**Predictions using machine learning**: Using ML to predict the time slots in which labs will be at their busiest, using data gathered over time on approximate numbers of students within the labs
+>- **Formatting and displaying retrieved room data**: Transforming the retrieved room data from its raw form to a form that is more presentable and readable to users.
+>- **Predictions using machine learning**: Using ML to predict the time slots in which labs will be at their busiest, using data gathered over time on approximate numbers of students within the labs
