@@ -22,33 +22,18 @@ public class ApData {
 
     public ApData(String location) {
         this.location = location;
-        updateSSID();
-        updateBSSID();
-        updateRSSI();
     }
 
-    public void updateSSID() {
-        try {
-            this.ssid = wifiInfo.getSSID();
-        } catch (NullPointerException e) {
-            this.ssid = "ERROR";
-        }
+    public void updateSSID(String ssid) {
+        this.ssid = ssid;
     }
 
-    public void updateBSSID() {
-        try {
-            this.bssid = wifiInfo.getBSSID();
-        } catch (NullPointerException e) {
-            this.bssid = "ERROR";
-        }
+    public void updateBSSID(String bssid) {
+        this.bssid = bssid;
     }
 
-    public void updateRSSI() {
-        try {
-            this.rssi = wifiInfo.getRssi();
-        } catch (NullPointerException e) {
-            this.rssi = 9999;
-        }
+    public void updateRSSI(int rssi) {
+        this.rssi = rssi;
     }
 
     public void buildVisibleApList(WifiManager wifiManager) {
