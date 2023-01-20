@@ -22,8 +22,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-         wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-         wifiInfo = wifiManager.getConnectionInfo();
+        wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        wifiInfo = wifiManager.getConnectionInfo();
     }
 
     @Override

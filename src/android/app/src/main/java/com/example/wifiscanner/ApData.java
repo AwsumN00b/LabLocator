@@ -12,8 +12,7 @@ import java.util.Map;
 
 public class ApData {
 
-    WifiInfo wifiInfo;
-
+    String timestamp;
     String location;
     String ssid;
     String bssid;
@@ -21,6 +20,8 @@ public class ApData {
     Map<String, String> visibleApList = new HashMap<>();
 
     public ApData(String location) {
+        long ts = System.currentTimeMillis() / 1000;
+        this.timestamp = Long.toString(ts);
         this.location = location;
     }
 
@@ -54,6 +55,7 @@ public class ApData {
     public String toString() {
 
         return String.format("Location: %s\n", this.location) +
+                String.format("Time: %s\n", this.timestamp) +
                 String.format("SSID: %s\n", this.ssid) +
                 String.format("BSSID: %s\n", this.bssid) +
                 String.format("RSSI: %s\n", this.rssi) +
