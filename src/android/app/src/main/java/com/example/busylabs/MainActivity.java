@@ -1,49 +1,41 @@
 package com.example.busylabs;
 
-import android.content.Context;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.wifiscanner.ApData;
-
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    WifiManager wifiManager;
-    WifiInfo wifiInfo;
+    ScanThread scanThread;
+    Button scanButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        wifiInfo = wifiManager.getConnectionInfo();
+        scanThread = new ScanThread(this);
+        scanButton = (Button) findViewById(R.id.button_scan);
+        setContentView(R.layout.activity_main);
     }
 
     @Override
     public void onClick(View view) {
 
+        scanThread.toggleThread();
+
+        if (scanThread.isRunning()) {
+//            this.scanButton.setText("Stop");
+            scanThread.start();
+        }
+//        else {
+//            this.scanButton.setText("Start");
+//        }
     }
 
-    public void startScan(View view) {
-        ApData apData = new ApData("LG25");
-
-        apData.updateSSID(wifiInfo.getSSID());
-        apData.updateBSSID(wifiInfo.getBSSID());
-        apData.updateRSSI(wifiInfo.getRssi());
-
-        apData.buildVisibleApList(wifiManager);
-
-        String apDataString = apData.toString();
-        Log.d("Wifi Test", apDataString);
-        updateTextView(apDataString);
-    }
 
     public void updateTextView(String string) {
         TextView textView = (TextView) findViewById(R.id.textView);

@@ -54,11 +54,11 @@ public class ApData {
     @NonNull
     public String toString() {
 
-        return String.format("Location: %s\n", this.location) +
-                String.format("Time: %s\n", this.timestamp) +
-                String.format("SSID: %s\n", this.ssid) +
-                String.format("BSSID: %s\n", this.bssid) +
-                String.format("RSSI: %s\n", this.rssi) +
-                String.format("AP List: %s", this.visibleApList.toString());
+        return String.format("Location: %s|", this.location) +
+                String.format("Time: %s|", this.timestamp) +
+                String.format("SSID: %s|", this.ssid) +
+                String.format("BSSID: %s|", this.bssid) +
+                String.format("RSSI: %s|", this.rssi) +
+                String.format("AP List: %s\n", this.visibleApList.toString());
     }
 }
