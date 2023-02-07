@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class ApData {
 
-    String timestamp;
+    public String timestamp;
     String location;
     String ssid;
     String bssid;

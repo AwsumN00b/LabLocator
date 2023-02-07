@@ -4,9 +4,13 @@ import android.content.Context;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.wifiscanner.ApData;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 
@@ -60,20 +64,19 @@ public class ScanThread extends Thread {
                 e.printStackTrace();
             }
 
-            writeToFile(apDataString, mainActivity.getApplicationContext());
+            writeToFile("output_scan.txt", apDataString);
             mainActivity.updateTextView(apDataString);
-
         }
     }
 
-    private void writeToFile(String data, Context context) {
+    private void writeToFile(String fileName, String data) {
+        File path = mainActivity.getApplicationContext().getFilesDir();
         try {
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("output.txt", Context.MODE_PRIVATE));
-            outputStreamWriter.write(data);
-            outputStreamWriter.close();
-        } catch (IOException e) {
-            mainActivity.updateTextView("FILE WRITE ERROR!");
-            Log.e("Exception", "File write failed: " + e);
+            FileOutputStream writer = new FileOutputStream(new File(path, fileName));
+            writer.write(data.getBytes());
+            writer.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
