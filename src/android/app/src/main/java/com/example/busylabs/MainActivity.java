@@ -33,10 +33,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             scanThread.start();
             Toast.makeText(this, "Scan has begun!", Toast.LENGTH_SHORT).show();
         }
-        else {
-            scanThread.stop();
-//            this.scanButton.setText("Start");
-        }
+//        else {
+////            this.scanButton.setText("Start");
+//        }
     }
 
 

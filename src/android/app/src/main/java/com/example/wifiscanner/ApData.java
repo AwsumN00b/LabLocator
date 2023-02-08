@@ -45,7 +45,7 @@ public class ApData {
 
             for (int i = 0; i < availNetworks.size(); i++) {
                 visibleApList.put(
-                        availNetworks.get(i).BSSID, availNetworks.get(i).SSID
+                        availNetworks.get(i).BSSID, availNetworks.toString()
                 );
             }
         }

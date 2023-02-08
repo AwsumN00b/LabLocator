@@ -72,7 +72,7 @@ public class ScanThread extends Thread {
     private void writeToFile(String fileName, String data) {
         File path = mainActivity.getApplicationContext().getFilesDir();
         try {
-            FileOutputStream writer = new FileOutputStream(new File(path, fileName));
+            FileOutputStream writer = new FileOutputStream(new File(path, fileName), true);
             writer.write(data.getBytes());
             writer.close();
         } catch (Exception e) {
