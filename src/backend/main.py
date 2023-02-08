@@ -1,5 +1,3 @@
-from typing import Union
-
 from fastapi import FastAPI
 from random import choice
 
@@ -25,7 +23,3 @@ def calculate_prediction(aplist):
     p = ["lg25", "lg26", "lg27"]
 
     return choice(p)
-
-@busylabs_backend.get("/items/{item_id}")
-def read_item(item_id: int, q: Union[str, None] = None):
-    return {"item_id": item_id, "q": q}
