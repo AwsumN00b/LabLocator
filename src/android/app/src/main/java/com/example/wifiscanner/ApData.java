@@ -15,7 +15,7 @@ public class ApData {
     String ssid;
     String bssid;
     int rssi;
-    List<String> visibleApList = new ArrayList<>();
+    public List<String> visibleApList = new ArrayList<>();
 
     public ApData(String location) {
         long ts = System.currentTimeMillis() / 1000;

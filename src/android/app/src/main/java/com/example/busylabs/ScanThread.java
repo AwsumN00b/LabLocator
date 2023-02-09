@@ -56,16 +56,18 @@ public class ScanThread extends Thread {
 
             apData.buildVisibleApList(wifiManager);
 
-            String apDataString = apData.toString();
+
+            if (!apData.visibleApList.isEmpty()) {
+                String apDataString = apData.toString();
+                writeToFile("output_scan.txt", apDataString);
+                mainActivity.updateTextView(apDataString);
+            }
 
             try {
                 Thread.sleep(30000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
-            writeToFile("output_scan.txt", apDataString);
-            mainActivity.updateTextView(apDataString);
         }
     }
 
