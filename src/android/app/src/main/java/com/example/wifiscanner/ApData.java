@@ -1,14 +1,12 @@
 package com.example.wifiscanner;
 
 import android.net.wifi.ScanResult;
-import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 
 import androidx.annotation.NonNull;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class ApData {
 
@@ -17,7 +15,7 @@ public class ApData {
     String ssid;
     String bssid;
     int rssi;
-    Map<String, String> visibleApList = new HashMap<>();
+    List<String> visibleApList = new ArrayList<>();
 
     public ApData(String location) {
         long ts = System.currentTimeMillis() / 1000;
@@ -39,14 +37,16 @@ public class ApData {
 
     public void buildVisibleApList(WifiManager wifiManager) {
 
-        List<ScanResult> availNetworks = wifiManager.getScanResults();
+        boolean scanSuccess = wifiManager.startScan();
 
-        if (availNetworks.size() > 0) {
+        if (scanSuccess) {
+            List<ScanResult> availNetworks = wifiManager.getScanResults();
 
-            for (int i = 0; i < availNetworks.size(); i++) {
-                visibleApList.put(
-                        availNetworks.get(i).BSSID, availNetworks.toString()
-                );
+            if (availNetworks.size() > 0) {
+
+                for (int i = 0; i < availNetworks.size(); i++) {
+                    visibleApList.add(availNetworks.get(i).toString());
+                }
             }
         }
     }

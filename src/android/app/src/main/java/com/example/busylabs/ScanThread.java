@@ -59,7 +59,7 @@ public class ScanThread extends Thread {
             String apDataString = apData.toString();
 
             try {
-                Thread.sleep(500);
+                Thread.sleep(30000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
