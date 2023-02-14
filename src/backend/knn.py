@@ -1,69 +1,66 @@
-import numpy as np
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
-import itertools
 
 
 # import file data into a pandas dataframe
 def import_data(filename):
-    # due to aplist being separated by commas, chosen delimiter is '|'
-    data = pd.read_csv(filename, sep='|')
+    data = pd.read_csv(filename)
     return data
 
 
 # function to parse unique bssids in each scan
-def transform_aplist(df):
-    location = df['Location']
-    ap_list = df['AP List'].values.tolist()
+def transform_aplist(data):
+    locations = data['Location']
+    ap_list = data['AP List'].values.tolist()
 
-    connection_points = []
-    for i in ap_list:
-        test = i.split("interface name: wlan0") # access points list is structured a bit strange
-        test = [i.split(',') for i in test if "eduroam" in i or "DCU-Guest-WiFi" in i]
+    ap_list_split = [i.split('|') for i in ap_list]
 
-        i = 0
-        while i < len(test):
-            test[i] = [p.strip(' BSSID: ') for p in test[i] if "BSSID" in p]
-            i += 1
+    bssid_list = []
+    for room in ap_list_split:
+        bssid_list.append(get_bssid_list(room))
 
-        test = [i[0] for i in test]
+    bssid_columns = get_unique_bssids(bssid_list)
 
-        connection_points.append(test)
+    zipped_data = list(zip(locations, bssid_list))
 
-    concat_results(location, connection_points)
+    return create_dataframe(zipped_data, bssid_columns)
 
 
-# squash everything together
-def concat_results(loc, connections):
-    loc_set = list(set(loc))
-    loc_set = [[i] for i in loc_set]
+def create_dataframe(data, columns):
+    df = pd.DataFrame(columns=['Room'] + columns)
 
-    zipped = list(zip(loc, connections))
+    f = []
+    for room in data:
+        d = {i: 1 for i in room[1]}
+        f.append(d)
+        for i in columns:
+            if i not in d:
+                d[i] = 0
 
-    # nested for loop action
-    for room in loc_set:
-        for i in zipped:
-            if i[0] == room[0]:
-                room.append(i[1])
+    for i in range(len(f)):
+        room = pd.Series({'Room': data[i][0]})
+        aps = pd.Series(f[i])
+        df.loc[i] = pd.concat([room, aps])
 
-    final = []
+    grouped_df = df.groupby(['Room'], axis=0, as_index=False).max()
 
-    # merge the mul
-    for i in loc_set:
-        final.append(list(set(list(itertools.chain.from_iterable(i[1:])))))
-
-    dataframe_prep(loc_set, final)
-
-
-# convert transformed data to dataframe?
-def dataframe_prep(l, f):
-    # room column
-    # column for each access point
+    grouped_df.to_csv("ml_data.csv") # output data to csv
+    return grouped_df
 
 
-    pass
+def get_unique_bssids(bssid_list):
+    merged_list = []
+    for i in bssid_list:
+        merged_list += i
+
+    return list(set(merged_list))
+
+
+def get_bssid_list(room):
+    room = [entry.split(';')[1] for entry in room if entry != '']
+    return room
 
 
 def make_prediction(data):
@@ -94,6 +91,6 @@ def make_prediction(data):
 
 
 if __name__ == "__main__":
-    # make_prediction()
-    data = import_data("output_scan.csv")
-    transform_aplist(data)
+    imported_data = import_data("output_scan.csv")
+    ml_data = transform_aplist(imported_data)
+
