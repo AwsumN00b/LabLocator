@@ -11,7 +11,8 @@ import java.io.FileOutputStream;
 
 public class ScanThread extends Thread {
 
-    static int MAX_ITERATIONS = 2400;
+    static final int MAX_ITERATIONS = 100;
+    static final String OUTPUT_FILE = "output_scan.csv";
 
     MainActivity mainActivity;
     WifiManager wifiManager;
@@ -43,7 +44,7 @@ public class ScanThread extends Thread {
                 break;
             }
 
-            ScanData scanData = new ScanData("L129");
+            ScanData scanData = new ScanData(mainActivity.room);
 
             scanData.updateSSID(wifiInfo.getSSID());
             scanData.updateBSSID(wifiInfo.getBSSID());
@@ -54,7 +55,7 @@ public class ScanThread extends Thread {
 
             if (!scanData.apList.isEmpty()) {
                 String apDataString = scanData.toString();
-                writeToFile("output_scan.csv", apDataString);
+                writeToFile(apDataString);
                 mainActivity.updateTextView(apDataString);
             }
 
@@ -66,10 +67,10 @@ public class ScanThread extends Thread {
         }
     }
 
-    private void writeToFile(String fileName, String data) {
+    private void writeToFile(String data) {
         File path = mainActivity.getApplicationContext().getFilesDir();
         try {
-            FileOutputStream writer = new FileOutputStream(new File(path, fileName), true);
+            FileOutputStream writer = new FileOutputStream(new File(path, OUTPUT_FILE), true);
             writer.write(data.getBytes());
             writer.close();
         } catch (Exception e) {
