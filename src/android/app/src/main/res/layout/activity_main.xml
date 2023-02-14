@@ -19,13 +19,26 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="372dp"
-        android:layout_height="719dp"
+        android:layout_width="356dp"
+        android:layout_height="722dp"
         android:layout_marginTop="16dp"
         android:text="Hello World!"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editTextTextLabRoom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="LG25"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.979" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

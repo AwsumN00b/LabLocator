@@ -3,16 +3,11 @@ package com.example.busylabs;
 import android.content.Context;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-import android.util.Log;
-import android.widget.Toast;
 
-import com.example.wifiscanner.ApData;
+import com.example.wifiscanner.ScanData;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
 
 public class ScanThread extends Thread {
 
@@ -48,18 +43,18 @@ public class ScanThread extends Thread {
                 break;
             }
 
-            ApData apData = new ApData("LG25");
+            ScanData scanData = new ScanData("L129");
 
-            apData.updateSSID(wifiInfo.getSSID());
-            apData.updateBSSID(wifiInfo.getBSSID());
-            apData.updateRSSI(wifiInfo.getRssi());
+            scanData.updateSSID(wifiInfo.getSSID());
+            scanData.updateBSSID(wifiInfo.getBSSID());
+            scanData.updateRSSI(wifiInfo.getRssi());
 
-            apData.buildVisibleApList(wifiManager);
+            scanData.buildApList(wifiManager);
 
 
-            if (!apData.visibleApList.isEmpty()) {
-                String apDataString = apData.toString();
-                writeToFile("output_scan.txt", apDataString);
+            if (!scanData.apList.isEmpty()) {
+                String apDataString = scanData.toString();
+                writeToFile("output_scan.csv", apDataString);
                 mainActivity.updateTextView(apDataString);
             }
 
