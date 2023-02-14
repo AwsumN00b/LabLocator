@@ -3,20 +3,16 @@ package com.example.busylabs;
 import android.content.Context;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-import android.util.Log;
-import android.widget.Toast;
 
-import com.example.wifiscanner.ApData;
+import com.example.wifiscanner.ScanData;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
 
 public class ScanThread extends Thread {
 
-    static int MAX_ITERATIONS = 2400;
+    static final int MAX_ITERATIONS = 100;
+    static final String OUTPUT_FILE = "output_scan.csv";
 
     MainActivity mainActivity;
     WifiManager wifiManager;
@@ -48,18 +44,18 @@ public class ScanThread extends Thread {
                 break;
             }
 
-            ApData apData = new ApData("LG25");
+            ScanData scanData = new ScanData(mainActivity.room);
 
-            apData.updateSSID(wifiInfo.getSSID());
-            apData.updateBSSID(wifiInfo.getBSSID());
-            apData.updateRSSI(wifiInfo.getRssi());
+            scanData.updateSSID(wifiInfo.getSSID());
+            scanData.updateBSSID(wifiInfo.getBSSID());
+            scanData.updateRSSI(wifiInfo.getRssi());
 
-            apData.buildVisibleApList(wifiManager);
+            scanData.buildApList(wifiManager);
 
 
-            if (!apData.visibleApList.isEmpty()) {
-                String apDataString = apData.toString();
-                writeToFile("output_scan.txt", apDataString);
+            if (!scanData.apList.isEmpty()) {
+                String apDataString = scanData.toString();
+                writeToFile(apDataString);
                 mainActivity.updateTextView(apDataString);
             }
 
@@ -71,10 +67,10 @@ public class ScanThread extends Thread {
         }
     }
 
-    private void writeToFile(String fileName, String data) {
+    private void writeToFile(String data) {
         File path = mainActivity.getApplicationContext().getFilesDir();
         try {
-            FileOutputStream writer = new FileOutputStream(new File(path, fileName), true);
+            FileOutputStream writer = new FileOutputStream(new File(path, OUTPUT_FILE), true);
             writer.write(data.getBytes());
             writer.close();
         } catch (Exception e) {

@@ -19,8 +19,8 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="372dp"
-        android:layout_height="719dp"
+        android:layout_width="356dp"
+        android:layout_height="722dp"
         android:layout_marginTop="16dp"
         android:text="Hello World!"
         app:layout_constraintEnd_toEndOf="parent"

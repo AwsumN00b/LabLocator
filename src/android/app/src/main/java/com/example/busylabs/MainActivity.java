@@ -3,6 +3,7 @@ package com.example.busylabs;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -12,6 +13,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     ScanThread scanThread;
     Button scanButton;
+    public String room = "LG27";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +22,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         scanThread = new ScanThread(this);
         scanButton = (Button) findViewById(R.id.button_scan);
+
         setContentView(R.layout.activity_main);
     }
 
