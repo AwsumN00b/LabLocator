@@ -5,7 +5,7 @@ busylabs_backend = FastAPI()
 
 
 @busylabs_backend.get("/")
-def read_app_data():
+def read_app_data(location: str, time: int, aplist: str):
     aplist = emulate_prediction(aplist.strip("{}").split())
     return {"result": aplist}
 
