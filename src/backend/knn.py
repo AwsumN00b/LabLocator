@@ -29,7 +29,6 @@ def transform_aplist(data):
 
 
 def create_dataframe(data, columns):
-    df = pd.DataFrame(columns=['Room'] + columns)
 
     ap_visibility = []
     for room in data:
@@ -40,17 +39,19 @@ def create_dataframe(data, columns):
             if access_point not in ap_dict:
                 ap_dict[access_point] = 0
 
+    d = []
     # compile rooms and visible access points to dataframe
     for i in range(len(ap_visibility)):
         room = pd.Series({'Room': data[i][0]})
         aps = pd.Series(ap_visibility[i])
-        df.loc[i] = pd.concat([room, aps], axis=1).all()
+        d.append(pd.concat([room, aps]))
+
+    df = pd.DataFrame(d, columns=['Room'] + columns)
 
     # group by rooms
     grouped_df = df.groupby(['Room'], axis=0, as_index=False).max()
 
-    # grouped_df.to_csv("ml_data.csv")    # output data to csv
-    df.to_csv("test.csv")
+    grouped_df.to_csv("ml_data.csv")    # output data to csv -- for testing
     return grouped_df
 
 
