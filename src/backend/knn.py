@@ -1,8 +1,9 @@
+import numpy as np
 import pandas as pd
+from sklearn.metrics import confusion_matrix, classification_report
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
-
 
 # import file data into a pandas dataframe
 def import_data(filename):
@@ -48,11 +49,9 @@ def create_dataframe(data, columns):
 
     df = pd.DataFrame(d, columns=['Room'] + columns)
 
-    # group by rooms
-    grouped_df = df.groupby(['Room'], axis=0, as_index=False).max()
+    df.to_csv("ml_data.csv")    # output data to csv -- for testing
 
-    grouped_df.to_csv("ml_data.csv")    # output data to csv -- for testing
-    return grouped_df
+    return df
 
 
 def get_unique_bssids(bssid_list):
@@ -68,31 +67,36 @@ def get_bssid_list(room):
     return room
 
 
-def make_prediction(dataframe):
-    df_dropped = dataframe.drop('Room', axis=1)
+def knn_prediction(data):
+    data_dropped = data.drop('Room', axis=1)
 
-    scaler = StandardScaler()
-    scaler.fit(df_dropped)
-    scaled_features = scaler.transform(df_dropped)
-
-    df_feat = pd.DataFrame(scaled_features, columns=dataframe.columns[:-1])
+    df_feat = pd.DataFrame(data_dropped, columns=data.columns[1:])
 
     X = df_feat
-    y = dataframe['Room']
+    y = data['Room']
 
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=191)
+
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=139)
 
     knn = KNeighborsClassifier(n_neighbors=1)
     knn.fit(X_train, y_train)
 
-    predictions = knn.predict(X_test)
+    return knn
 
-    X_test.to_csv("test.csv")
 
-    return predictions
+def predict_scan(model):
+    data = pd.read_csv("ml_data.csv")
+    data = data.drop('Room', axis=1).loc[0]
+
+    # print(data)
+    # data =
+
+    # p = model.predict(data)
 
 
 if __name__ == "__main__":
     imported_data = import_data("output_scan.csv")
     ml_data = transform_aplist(imported_data)
-    # make_prediction(ml_data)
+
+    model = knn_prediction(ml_data)
+    predict_scan(model)
