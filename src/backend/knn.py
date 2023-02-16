@@ -1,9 +1,9 @@
-import numpy as np
+import random
+
 import pandas as pd
-from sklearn.metrics import confusion_matrix, classification_report
-from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
+import joblib
 
 # import file data into a pandas dataframe
 def import_data(filename):
@@ -49,7 +49,7 @@ def create_dataframe(data, columns):
 
     df = pd.DataFrame(d, columns=['Room'] + columns)
 
-    df.to_csv("ml_data.csv")    # output data to csv -- for testing
+    # df.to_csv("ml_data.csv")    # output data to csv -- for testing
 
     return df
 
@@ -75,7 +75,6 @@ def knn_prediction(data):
     X = df_feat
     y = data['Room']
 
-
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=139)
 
     knn = KNeighborsClassifier(n_neighbors=1)
@@ -84,14 +83,20 @@ def knn_prediction(data):
     return knn
 
 
-def predict_scan(model):
-    data = pd.read_csv("ml_data.csv")
-    data = data.drop('Room', axis=1).loc[0]
+def predict_single_scan(model, scan):
+    scan = scan[1:]
+    data_dropped = scan.to_frame()
+    data_dropped = data_dropped.transpose()
 
-    # print(data)
-    # data =
+    scan_prediction = model.predict(data_dropped)
 
-    # p = model.predict(data)
+    return scan_prediction
+
+
+def predict_multiple_scans(model, scans):
+    data_dropped = scans.drop('Room', axis=1)
+    scan_prediction = model.predict(data_dropped)
+    return scan_prediction
 
 
 if __name__ == "__main__":
@@ -99,4 +104,20 @@ if __name__ == "__main__":
     ml_data = transform_aplist(imported_data)
 
     model = knn_prediction(ml_data)
-    predict_scan(model)
+    num = random.randint(0,160)
+    scans = ml_data.loc[num: num+5]
+    scan = ml_data.loc[num]
+
+    prediction = predict_single_scan(model, scan)
+    predictions = predict_multiple_scans(model, scans)
+
+    print(f"Prediction: {predictions}\nTarget: {scans['Room'].to_list()}")
+    print(f"Prediction: {prediction[0]}\nTarget: {scan['Room']}")
+
+    joblib.dump(model, "model/knn.joblib")
+
+    knn_model = joblib.load("model/knn.joblib")
+    predictions = predict_multiple_scans(knn_model, scans)
+
+    print(f"Prediction: {predictions}\nTarget: {scans['Room'].to_list()}")
+
