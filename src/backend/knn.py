@@ -1,9 +1,9 @@
-import random
-
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
 import joblib
+from datetime import datetime
+
 
 # import file data into a pandas dataframe
 def import_data(filename):
@@ -11,8 +11,7 @@ def import_data(filename):
     return data
 
 
-# function to parse unique bssids in each scan
-def transform_aplist(data):
+def transform_data(data):
     locations = data['Location']
     ap_list = data['AP List'].values.tolist()
 
@@ -67,7 +66,7 @@ def get_bssid_list(room):
     return room
 
 
-def knn_prediction(data):
+def create_model(data):
     data_dropped = data.drop('Room', axis=1)
 
     df_feat = pd.DataFrame(data_dropped, columns=data.columns[1:])
@@ -101,23 +100,10 @@ def predict_multiple_scans(model, scans):
 
 if __name__ == "__main__":
     imported_data = import_data("output_scan.csv")
-    ml_data = transform_aplist(imported_data)
+    ml_data = transform_data(imported_data)
 
-    model = knn_prediction(ml_data)
-    num = random.randint(0,160)
-    scans = ml_data.loc[num: num+5]
-    scan = ml_data.loc[num]
+    knn_model = create_model(ml_data)
+    model_filename = "model/knn.joblib"
 
-    prediction = predict_single_scan(model, scan)
-    predictions = predict_multiple_scans(model, scans)
-
-    print(f"Prediction: {predictions}\nTarget: {scans['Room'].to_list()}")
-    print(f"Prediction: {prediction[0]}\nTarget: {scan['Room']}")
-
-    joblib.dump(model, "model/knn.joblib")
-
-    knn_model = joblib.load("model/knn.joblib")
-    predictions = predict_multiple_scans(knn_model, scans)
-
-    print(f"Prediction: {predictions}\nTarget: {scans['Room'].to_list()}")
-
+    joblib.dump(knn_model, model_filename)
+    print(f"New model created in {model_filename} at {datetime.now()}")
