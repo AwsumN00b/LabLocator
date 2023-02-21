@@ -29,7 +29,6 @@ def transform_data(data):
 
 
 def create_dataframe(data, columns):
-
     ap_visibility = []
     for room in data:
         ap_dict = {access_point: 1 for access_point in room[1]}
@@ -39,16 +38,14 @@ def create_dataframe(data, columns):
             if access_point not in ap_dict:
                 ap_dict[access_point] = 0
 
-    d = []
+    concatted = []
     # compile rooms and visible access points to dataframe
     for i in range(len(ap_visibility)):
         room = pd.Series({'Room': data[i][0]})
         aps = pd.Series(ap_visibility[i])
-        d.append(pd.concat([room, aps]))
+        concatted.append(pd.concat([room, aps]))
 
-    df = pd.DataFrame(d, columns=['Room'] + columns)
-
-    # df.to_csv("ml_data.csv")    # output data to csv -- for testing
+    df = pd.DataFrame(concatted, columns=['Room'] + columns)
 
     return df
 
@@ -76,7 +73,7 @@ def create_model(data):
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=139)
 
-    knn = KNeighborsClassifier(n_neighbors=1)
+    knn = KNeighborsClassifier(n_neighbors=11)
     knn.fit(X_train, y_train)
 
     return knn
