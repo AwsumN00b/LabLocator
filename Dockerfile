@@ -7,4 +7,4 @@ RUN pip install --no-cache-dir --upgrade -r requirements.txt
 
 COPY ./src/backend /code/app
 
-CMD ["python", "main.py", $SERVER_IP, 8080]
+CMD ["python", "main.py", "$SERVER_IP", "8080"]
