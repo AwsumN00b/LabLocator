@@ -10,4 +10,10 @@
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="button_start">Start</string>
+    <string name="lg26">LG26</string>
+    <string name="l101">L101</string>
+    <string name="l114">L114</string>
+    <string name="lg25">LG25</string>
+    <string name="locating">Locating…</string>
+    <string name="lablocator">LabLocator</string>
 </resources>

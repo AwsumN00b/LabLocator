@@ -32,12 +32,25 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:fontFamily="sans-serif-black"
-            android:text="LabLocator"
+            android:text="@string/lablocator"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             android:textColor="#FDFDFD"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textViewCurrentLocation"
+            android:layout_width="78dp"
+            android:layout_height="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="@string/locating"
+            android:textAlignment="viewStart"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
@@ -50,10 +63,28 @@
         app:layout_constraintTop_toBottomOf="@+id/constraintLayoutHeader">
 
         <Button
-            android:id="@+id/labListButtonLG25"
+            android:id="@+id/labListButtonLG2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="LG25" />
+            android:layout_height="92dp"
+            android:text="@string/lg25" />
+
+        <Button
+            android:id="@+id/labListButtonLG26"
+            android:layout_width="match_parent"
+            android:layout_height="92dp"
+            android:text="@string/lg26" />
+
+        <Button
+            android:id="@+id/labListButtonL101"
+            android:layout_width="match_parent"
+            android:layout_height="92dp"
+            android:text="@string/l101" />
+
+        <Button
+            android:id="@+id/labListButtonL114"
+            android:layout_width="match_parent"
+            android:layout_height="92dp"
+            android:text="@string/l114" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
