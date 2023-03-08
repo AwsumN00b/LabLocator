@@ -56,7 +56,7 @@ public class ScanThread extends Thread {
             if (!scanData.apList.isEmpty()) {
                 String apDataString = scanData.toString();
                 writeToFile(apDataString);
-                mainActivity.updateTextView(apDataString);
+                mainActivity.updateTextViewCurrentLocation(apDataString);
             }
 
             try {
