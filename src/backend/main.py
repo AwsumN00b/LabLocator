@@ -35,6 +35,17 @@ db_connection = mysql.connector.connect(
 db_cursor = db_connection.cursor()
 
 
+@app.get('/send')
+async def send_app_data(room: str, deviceID: str, time: int):
+    sql = "INSERT INTO user_location_table (room, deviceID, time) VALUES (%s, %s, %s)"
+    val = (room, deviceID, time)
+    db_cursor.execute(sql, val)
+
+    db_connection.commit()
+
+    return {"room": room, "time": time, "deviceID": deviceID}
+
+
 @app.get('/room')
 async def read_app_data(ap_str: str):
     ap_list = ap_str.split("|")
