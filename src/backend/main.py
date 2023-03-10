@@ -1,11 +1,18 @@
 from random import choice
-
+import mysql.connector
 import uvicorn
 import sys
+import os
 from fastapi import FastAPI, HTTPException
 
 ip_address = sys.argv[1]
 port = int(sys.argv[2])
+
+db_host = os.environ.get('SQLHOST')
+db_user = os.environ.get('SQLUSER')
+db_pass = os.environ.get('SQLPASS')
+db_port = os.environ.get('SQLPORT')
+db = os.environ.get('SQLDB')
 
 description = """
 # BusyLabs - Backend API
@@ -16,6 +23,16 @@ app = FastAPI(
     title="BusyLabs API",
     description=description
 )
+
+db_connection = mysql.connector.connect(
+    host=db_host,
+    user=db_user,
+    password=db_pass,
+    port=db_port,
+    database=db
+)
+
+db_cursor = db_connection.cursor()
 
 
 @app.get('/room')
