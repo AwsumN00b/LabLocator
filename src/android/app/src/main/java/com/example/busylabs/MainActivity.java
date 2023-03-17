@@ -10,8 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     ScanThread scanThread;
-    Button scanButton;
-    public String room = "LG27";
+    public String room = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button l114Button = (Button) findViewById(R.id.labListButtonL114);
         l114Button.setOnClickListener(this);
 
-        scanThread.toggleThread();
+        runScanThread();
         setContentView(R.layout.activity_main);
     }
 
@@ -53,5 +52,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void updateTextViewCurrentLocation(String string) {
         TextView textView = findViewById(R.id.textViewCurrentLocation);
         textView.setText(string);
+    }
+
+    public void runScanThread() {
+        scanThread.start();
     }
 }
