@@ -28,26 +28,4 @@
         app:layout_constraintStart_toEndOf="@+id/imageButton_back"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TableLayout
-        android:layout_width="391dp"
-        android:layout_height="709dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </TableLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

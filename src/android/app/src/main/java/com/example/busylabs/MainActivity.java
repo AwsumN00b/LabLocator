@@ -34,19 +34,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+
     @Override
     public void onClick(View view) {
 
-        switch (view.getId()) {
-            case R.id.labListButtonLG25:
-                launchRoomActivity("LG25");
-            case R.id.labListButtonLG26:
-                launchRoomActivity("LG26");
-            case R.id.labListButtonL101:
-                launchRoomActivity("L101");
-            case R.id.labListButtonL114:
-                launchRoomActivity("L114");
-        }
+        Intent roomIntent = new Intent(this, RoomActivity.class);
+        Bundle bundle = new Bundle();
+
+        Button button = (Button) view;
+        String roomName = button.getText().toString();
+
+        bundle.putString("roomName", roomName);
+        roomIntent.putExtras(bundle);
+        startActivity(roomIntent);
     }
 
 
@@ -55,13 +55,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         textView.setText(string);
     }
 
-    public void launchRoomActivity(String roomName) {
-        Intent roomIntent = new Intent(this, RoomActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putString("roomName", roomName);
-        roomIntent.putExtras(bundle);
-        startActivity(roomIntent);
-    }
 
     public void runScanThread() {
         scanThread.start();

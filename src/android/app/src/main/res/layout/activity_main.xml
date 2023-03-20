@@ -79,24 +79,28 @@
             android:id="@+id/labListButtonLG25"
             android:layout_width="match_parent"
             android:layout_height="92dp"
+            android:onClick="onClick"
             android:text="@string/lg25" />
 
         <Button
             android:id="@+id/labListButtonLG26"
             android:layout_width="match_parent"
             android:layout_height="92dp"
+            android:onClick="onClick"
             android:text="@string/lg26" />
 
         <Button
             android:id="@+id/labListButtonL101"
             android:layout_width="match_parent"
             android:layout_height="92dp"
+            android:onClick="onClick"
             android:text="@string/l101" />
 
         <Button
             android:id="@+id/labListButtonL114"
             android:layout_width="match_parent"
             android:layout_height="92dp"
+            android:onClick="onClick"
             android:text="@string/l114" />
 
     </LinearLayout>
