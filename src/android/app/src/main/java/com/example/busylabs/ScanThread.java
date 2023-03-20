@@ -44,7 +44,7 @@ public class ScanThread extends Thread {
                 break;
             }
 
-            ScanData scanData = new ScanData(mainActivity.room);
+            ScanData scanData = new ScanData(mainActivity.currentRoom);
 
             scanData.updateSSID(wifiInfo.getSSID());
             scanData.updateBSSID(wifiInfo.getBSSID());

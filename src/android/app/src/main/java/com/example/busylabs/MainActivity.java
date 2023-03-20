@@ -1,5 +1,6 @@
 package com.example.busylabs;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,7 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     ScanThread scanThread;
-    public String room = "";
+    public String currentRoom = "";
+    Intent intent = new Intent(this, RoomActivity.class);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +20,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         scanThread = new ScanThread(this);
+        runScanThread();
 
         Button lg25Button = (Button) findViewById(R.id.labListButtonLG25);
         lg25Button.setOnClickListener(this);
@@ -28,8 +31,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button l114Button = (Button) findViewById(R.id.labListButtonL114);
         l114Button.setOnClickListener(this);
 
-        runScanThread();
         setContentView(R.layout.activity_main);
+
     }
 
     @Override
@@ -37,21 +40,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         switch (view.getId()) {
             case R.id.labListButtonLG25:
-                // goto fragment
+                launchRoomActivity("LG25");
             case R.id.labListButtonLG26:
-                // goto fragment
+                launchRoomActivity("LG26");
             case R.id.labListButtonL101:
-                // goto fragment
+                launchRoomActivity("L101");
             case R.id.labListButtonL114:
-                // goto fragment
+                launchRoomActivity("L114");
         }
-
     }
 
 
     public void updateTextViewCurrentLocation(String string) {
         TextView textView = findViewById(R.id.textViewCurrentLocation);
         textView.setText(string);
+    }
+
+    public void launchRoomActivity(String roomName) {
+        Bundle bundle = new Bundle();
+        bundle.putString("roomName", roomName);
+        Intent intent = new Intent(MainActivity.this, RoomActivity.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     public void runScanThread() {
