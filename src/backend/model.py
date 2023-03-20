@@ -77,7 +77,7 @@ def create_model(data):
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=139)
 
-    knn = KNeighborsClassifier(n_neighbors=11)
+    knn = KNeighborsClassifier(n_neighbors=7)
     knn.fit(X_train, y_train)
 
     return knn
@@ -86,7 +86,7 @@ def create_model(data):
 # converts scan from string to dataframe
 def convert_scan(scan):
     split_data = [i.split(";") for i in scan if i != '']
-    mldata = pd.read_csv("ml_data.csv", index_col=0).columns
+    mldata = pd.read_csv("ml_data.csv", index_col=0).columns[1:]
 
     # creates dict of visible access points
     ap_visible = {i[1]: 1 for i in split_data}
@@ -102,7 +102,6 @@ def convert_scan(scan):
 
 
 def predict_single_scan(model, scan):
-    scan = scan[1:]  # ignores index
     data_dropped = scan.to_frame()
     data_dropped = data_dropped.transpose()
 
