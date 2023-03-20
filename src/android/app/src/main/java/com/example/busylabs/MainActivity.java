@@ -12,7 +12,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     ScanThread scanThread;
     public String currentRoom = "";
-    Intent intent = new Intent(this, RoomActivity.class);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,11 +56,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void launchRoomActivity(String roomName) {
+        Intent roomIntent = new Intent(this, RoomActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("roomName", roomName);
-        Intent intent = new Intent(MainActivity.this, RoomActivity.class);
-        intent.putExtras(bundle);
-        startActivity(intent);
+        roomIntent.putExtras(bundle);
+        startActivity(roomIntent);
     }
 
     public void runScanThread() {
