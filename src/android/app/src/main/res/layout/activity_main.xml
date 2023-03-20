@@ -6,26 +6,103 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/button_scan"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="16dp"
-        android:onClick="onClick"
-        android:text="@string/button_start"
+    <FrameLayout
+        android:id="@+id/room_fragment_container"
+        android:layout_width="411dp"
+        android:layout_height="671dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="356dp"
-        android:layout_height="722dp"
-        android:layout_marginTop="16dp"
-        android:text="Hello World!"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayoutHeader">
+
+    </FrameLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayoutHeader"
+        android:layout_width="421dp"
+        android:layout_height="59dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/materialToolbarHeader"
+            android:layout_width="424dp"
+            android:layout_height="57dp"
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.555"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textViewHeaderTitle"
+            android:layout_width="113dp"
+            android:layout_height="33dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="sans-serif-black"
+            android:text="@string/lablocator"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:textColor="#FDFDFD"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textViewCurrentLocation"
+            android:layout_width="78dp"
+            android:layout_height="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="@string/locating"
+            android:textAlignment="viewStart"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColor="#F8F5F5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="391dp"
+        android:layout_height="640dp"
+        android:layout_marginTop="40dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayoutHeader">
+
+        <Button
+            android:id="@+id/labListButtonLG25"
+            android:layout_width="match_parent"
+            android:layout_height="92dp"
+            android:onClick="onClick"
+            android:text="@string/lg25" />
+
+        <Button
+            android:id="@+id/labListButtonLG26"
+            android:layout_width="match_parent"
+            android:layout_height="92dp"
+            android:onClick="onClick"
+            android:text="@string/lg26" />
+
+        <Button
+            android:id="@+id/labListButtonL101"
+            android:layout_width="match_parent"
+            android:layout_height="92dp"
+            android:onClick="onClick"
+            android:text="@string/l101" />
+
+        <Button
+            android:id="@+id/labListButtonL114"
+            android:layout_width="match_parent"
+            android:layout_height="92dp"
+            android:onClick="onClick"
+            android:text="@string/l114" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
