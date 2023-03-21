@@ -1,7 +1,8 @@
-import uvicorn
 import sys
+
+import uvicorn
 from fastapi import FastAPI, HTTPException
-import joblib
+
 from model import *
 
 ip_address = sys.argv[1]
