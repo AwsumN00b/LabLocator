@@ -1,11 +1,13 @@
-from random import choice
-
 import uvicorn
 import sys
 from fastapi import FastAPI, HTTPException
+import joblib
+from model import *
 
-ip_address = sys.argv[1]
-port = int(sys.argv[2])
+# ip_address = sys.argv[1]
+# port = int(sys.argv[2])
+
+knn_model = joblib.load("model/knn.joblib")
 
 description = """
 # BusyLabs - Backend API
@@ -25,16 +27,13 @@ async def read_app_data(ap_str: str):
     if len(ap_list) == 0 or ap_str is None:
         raise HTTPException(status_code=406, detail="No Access Points provided")
 
-    result = emulate_prediction(ap_list)
-    return {"result": result}
+    result = get_prediction(ap_list)
+    return {"prediction": result[0]}
 
 
-# emulation of prediction -- to be further developed
-# TODO: Move this to its own file
-def emulate_prediction(ap_list):
-    p = ["LG25", "LG26", "LG27", "L114", "L101"]
-
-    return choice(p)
+def get_prediction(ap_list):
+    converted_scan = convert_scan(ap_list)
+    return predict_single_scan(knn_model, converted_scan)
 
 
 if __name__ == "__main__":
