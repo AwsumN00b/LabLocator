@@ -4,8 +4,8 @@ from fastapi import FastAPI, HTTPException
 import joblib
 from model import *
 
-# ip_address = sys.argv[1]
-# port = int(sys.argv[2])
+ip_address = sys.argv[1]
+port = int(sys.argv[2])
 
 knn_model = joblib.load("model/knn.joblib")
 
