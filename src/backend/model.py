@@ -97,6 +97,7 @@ def convert_scan(scan):
             ap_visible[i] = 0
 
     result = pd.Series(ap_visible)
+    result = result[mldata]
 
     return result
 
