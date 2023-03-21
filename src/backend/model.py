@@ -28,8 +28,10 @@ def transform_data(data):
     return create_dataframe(zipped_data, bssid_columns)
 
 
+# format the data to train the model
 def create_dataframe(data, columns):
     ap_visibility = []
+    # create dictionary for each room containing visible and non visible access points
     for room in data:
         ap_dict = {access_point: 1 for access_point in room[1]}
         ap_visibility.append(ap_dict)
@@ -46,6 +48,8 @@ def create_dataframe(data, columns):
         concatted.append(pd.concat([room, aps]))
 
     df = pd.DataFrame(concatted, columns=['Room'] + columns)
+
+    df.to_csv("ml_data.csv")
 
     return df
 
@@ -79,8 +83,26 @@ def create_model(data):
     return knn
 
 
+# converts scan from string to dataframe to match model input
+def convert_scan(scan):
+    split_data = [i.split(";") for i in scan if i != '']
+    mldata = pd.read_csv("ml_data.csv", index_col=0).columns[1:]
+
+    # creates dict of visible access points
+    ap_visible = {i[1]: 1 for i in split_data}
+
+    # adds not visible access points
+    for i in mldata:
+        if i not in ap_visible.keys():
+            ap_visible[i] = 0
+
+    result = pd.Series(ap_visible)
+    result = result[mldata]
+
+    return result
+
+
 def predict_single_scan(model, scan):
-    scan = scan[1:]
     data_dropped = scan.to_frame()
     data_dropped = data_dropped.transpose()
 

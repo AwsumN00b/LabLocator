@@ -10,4 +10,18 @@
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="button_start">Start</string>
+    <string name="lg26">LG26</string>
+    <string name="l101">L101</string>
+    <string name="l114">L114</string>
+    <string name="lg25">LG25</string>
+    <string name="locating">Locating…</string>
+    <string name="lablocator">LabLocator</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_room">RoomActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="room_name">[ROOM_NAME]</string>
 </resources>
