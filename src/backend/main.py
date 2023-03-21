@@ -28,13 +28,12 @@ async def read_app_data(ap_str: str):
         raise HTTPException(status_code=406, detail="No Access Points provided")
 
     result = get_prediction(ap_list)
-    return {"result": result[0]}
+    return {"prediction": result[0]}
 
 
 def get_prediction(ap_list):
     converted_scan = convert_scan(ap_list)
     return predict_single_scan(knn_model, converted_scan)
-
 
 
 if __name__ == "__main__":

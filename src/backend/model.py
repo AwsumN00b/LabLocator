@@ -77,13 +77,13 @@ def create_model(data):
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=139)
 
-    knn = KNeighborsClassifier(n_neighbors=7)
+    knn = KNeighborsClassifier(n_neighbors=11)
     knn.fit(X_train, y_train)
 
     return knn
 
 
-# converts scan from string to dataframe
+# converts scan from string to dataframe to match model input
 def convert_scan(scan):
     split_data = [i.split(";") for i in scan if i != '']
     mldata = pd.read_csv("ml_data.csv", index_col=0).columns[1:]
@@ -91,7 +91,7 @@ def convert_scan(scan):
     # creates dict of visible access points
     ap_visible = {i[1]: 1 for i in split_data}
 
-    # to ensure that the scan matches the format of the training data
+    # adds not visible access points
     for i in mldata:
         if i not in ap_visible.keys():
             ap_visible[i] = 0
