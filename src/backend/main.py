@@ -1,10 +1,8 @@
-from random import choice
+import os
+import sys
 import mysql.connector
 import uvicorn
-import sys
-import os
 from fastapi import FastAPI, HTTPException
-import joblib
 from model import *
 
 ip_address = sys.argv[1]
@@ -35,19 +33,25 @@ db_connection = mysql.connector.connect(
     port=db_port,
     database=db
 )
-
 db_cursor = db_connection.cursor()
 
 
-@app.get('/send')
-async def send_app_data(room: str, deviceID: str, time: int):
-    sql = "INSERT INTO user_location_table (room, deviceID, time) VALUES (%s, %s, %s)"
-    val = (room, deviceID, time)
-    db_cursor.execute(sql, val)
+@app.get('/send_location')
+async def send_app_data(room: str, device_id: str, time: int):
+    sql = "SELECT * FROM rooms"
+    db_cursor.execute(sql)
+    rooms = [i[1] for i in db_cursor]
 
-    db_connection.commit()
+    if room in rooms:
+        sql = "INSERT INTO user_location_table (room, deviceID, time) VALUES (%s, %s, %s)"
+        val = (room, device_id, time)
 
-    return {"room": room, "time": time, "deviceID": deviceID}
+        db_cursor.execute(sql, val)
+        db_connection.commit()
+
+        return {"result": "200 OK"}
+
+    return {"ERROR": "ROOM NOT FOUND"}
 
 
 @app.get('/room')
