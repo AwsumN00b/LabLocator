@@ -3,6 +3,7 @@ import sys
 import mysql.connector
 import uvicorn
 from fastapi import FastAPI, HTTPException
+import joblib
 from model import *
 
 ip_address = sys.argv[1]
