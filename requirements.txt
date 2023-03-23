@@ -3,3 +3,5 @@ fastapi
 joblib
 pandas
 scikit-learn
+mysql
+mysql-connector-python
