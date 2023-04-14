@@ -64,6 +64,20 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <ImageButton
+            android:id="@+id/refreshRoomButton"
+            android:layout_width="42dp"
+            android:layout_height="39dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="24dp"
+            android:background="?attr/colorPrimary"
+            android:contentDescription="@string/refresh_current_room"
+            android:onClick="onClick"
+            app:layout_constraintEnd_toStartOf="@+id/textViewCurrentLocation"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@android:drawable/ic_popup_sync"
+            tools:ignore="UsingOnClickInXml" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
@@ -80,28 +94,32 @@
             android:layout_width="match_parent"
             android:layout_height="92dp"
             android:onClick="onClick"
-            android:text="@string/lg25" />
+            android:text="@string/lg25"
+            tools:ignore="UsingOnClickInXml" />
 
         <Button
             android:id="@+id/labListButtonLG26"
             android:layout_width="match_parent"
             android:layout_height="92dp"
             android:onClick="onClick"
-            android:text="@string/lg26" />
+            android:text="@string/lg26"
+            tools:ignore="UsingOnClickInXml" />
 
         <Button
             android:id="@+id/labListButtonL101"
             android:layout_width="match_parent"
             android:layout_height="92dp"
             android:onClick="onClick"
-            android:text="@string/l101" />
+            android:text="@string/l101"
+            tools:ignore="UsingOnClickInXml" />
 
         <Button
             android:id="@+id/labListButtonL114"
             android:layout_width="match_parent"
             android:layout_height="92dp"
             android:onClick="onClick"
-            android:text="@string/l114" />
+            android:text="@string/l114"
+            tools:ignore="UsingOnClickInXml" />
 
     </LinearLayout>
 

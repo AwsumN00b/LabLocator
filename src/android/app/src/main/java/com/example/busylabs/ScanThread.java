@@ -4,10 +4,12 @@ import android.content.Context;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 
+import com.example.wifiscanner.AccessPoint;
 import com.example.wifiscanner.ScanData;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.List;
 
 public class ScanThread extends Thread {
 
@@ -34,6 +36,16 @@ public class ScanThread extends Thread {
         this.wifiInfo = wifiManager.getConnectionInfo();
     }
 
+    public ScanData getData() {
+        ScanData scanData = new ScanData();
+        scanData.updateSSID(wifiInfo.getSSID());
+        scanData.updateBSSID(wifiInfo.getBSSID());
+        scanData.updateRSSI(wifiInfo.getRssi());
+
+        scanData.buildApList(wifiManager);
+        return scanData;
+    }
+
     @Override
     public void run() {
         int i = 0;
@@ -44,13 +56,7 @@ public class ScanThread extends Thread {
                 break;
             }
 
-            ScanData scanData = new ScanData(mainActivity.currentRoom);
-
-            scanData.updateSSID(wifiInfo.getSSID());
-            scanData.updateBSSID(wifiInfo.getBSSID());
-            scanData.updateRSSI(wifiInfo.getRssi());
-
-            scanData.buildApList(wifiManager);
+            ScanData scanData = this.getData();
 
 
             if (!scanData.apList.isEmpty()) {

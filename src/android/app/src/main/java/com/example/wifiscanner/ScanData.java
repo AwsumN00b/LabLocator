@@ -1,5 +1,6 @@
 package com.example.wifiscanner;
 
+import android.annotation.SuppressLint;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 
@@ -17,10 +18,9 @@ public class ScanData {
     int rssi;
     public List<AccessPoint> apList = new ArrayList<>();
 
-    public ScanData(String location) {
+    public ScanData() {
         long ts = System.currentTimeMillis() / 1000;
         this.timestamp = Long.toString(ts);
-        this.location = location;
     }
 
     public void updateSSID(String ssid) {
@@ -40,7 +40,7 @@ public class ScanData {
         boolean scanSuccess = wifiManager.startScan();
 
         if (scanSuccess) {
-            List<ScanResult> availNetworks = wifiManager.getScanResults();
+            @SuppressLint("MissingPermission") List<ScanResult> availNetworks = wifiManager.getScanResults();
 
             if (availNetworks.size() > 0) {
 
@@ -55,14 +55,15 @@ public class ScanData {
         }
     }
 
-    private String toApListString(List<AccessPoint> apList) {
-        StringBuilder stringBuilder = new StringBuilder();
-        for (AccessPoint item : apList) {
-            stringBuilder.append(item.toString());
-            stringBuilder.append("|");
+    public List<String> toApListString() {
+
+        List<String> apListString = new ArrayList<>();
+
+        for (int i = 0; i < this.apList.size(); i++) {
+            apListString.add(this.apList.get(i).toString());
         }
 
-        return stringBuilder.toString();
+        return apListString;
     }
 
     @NonNull
@@ -73,6 +74,6 @@ public class ScanData {
                 String.format("%s,", this.ssid) +
                 String.format("%s,", this.bssid) +
                 String.format("%s,", this.rssi) +
-                String.format("%s\n", toApListString(this.apList));
+                String.format("%s\n", toApListString());
     }
 }
