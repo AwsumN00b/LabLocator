@@ -3,7 +3,9 @@ import sys
 
 import mysql.connector
 import uvicorn
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Query
+from pydantic import BaseModel
+from typing import Annotated
 
 from model import *
 
@@ -38,32 +40,23 @@ db_connection = mysql.connector.connect(
 db_cursor = db_connection.cursor()
 
 
-@app.get('/send_location')
-async def send_app_data(room: str, device_id: str, time: int):
-    sql = "SELECT * FROM rooms"
-    db_cursor.execute(sql)
-    rooms = [i[1] for i in db_cursor]
-
-    if room in rooms:
-        sql = "INSERT INTO user_location_table (room, deviceID, time) VALUES (%s, %s, %s)"
-        val = (room, device_id, time)
-
-        db_cursor.execute(sql, val)
-        db_connection.commit()
-
-        return {"result": "200 OK"}
-
-    return {"ERROR": "ROOM NOT FOUND"}
+class RoomData(BaseModel):
+    device_id: str
+    timestamp: int
+    aplist: Annotated[list[str] | None, Query()] = None
 
 
-@app.get('/room')
-async def read_app_data(ap_str: str):
-    ap_list = ap_str.split("|")
-
-    if len(ap_list) == 0 or ap_str is None:
+@app.put('/room')
+async def read_app_data(data: RoomData):
+    if len(data.aplist) == 0 or data.aplist is None:
         raise HTTPException(status_code=406, detail="No Access Points provided")
 
-    result = get_prediction(ap_list)
+    try:
+        result = get_prediction(data.aplist)
+    except IndexError:
+        raise HTTPException(status_code=500, detail="Internal Server Error")
+    # TODO: Log device, time, and room in DB
+
     return {"prediction": result[0]}
 
 
