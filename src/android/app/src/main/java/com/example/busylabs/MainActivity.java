@@ -1,7 +1,9 @@
 package com.example.busylabs;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.View;
@@ -10,6 +12,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -26,8 +29,15 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private final String ROOM_REQUEST_URL = "http://161.35.43.33:8000/room";
-//    private final String ROOM_REQUEST_URL = "http://localhost:8000/room";
+    //    private final String ROOM_REQUEST_URL = "http://localhost:8000/room";
+
+    private final List<String> permissions = Arrays.asList(
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_WIFI_STATE,
+            Manifest.permission.CHANGE_WIFI_STATE,
+            Manifest.permission.INTERNET
+    );
 
     private String androidId;
     private boolean isGettingLocation = false;
@@ -40,6 +50,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        checkPermissions();
 
         this.androidId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
@@ -111,11 +123,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void getRoom(ScanData scanData) throws IOException, JSONException {
-
+        String ROOM_REQUEST_URL = "http://161.35.43.33:8000/room";
         List<String> aplist = scanData.toApListString();
 
         JSONObject jsonBody = new JSONObject();
-        jsonBody.put("device_id", "TEST_ID");
+        jsonBody.put("device_id", this.androidId);
         jsonBody.put("timestamp", System.currentTimeMillis() / 1000);
 
         JSONArray jsonArray = new JSONArray();
@@ -146,4 +158,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Volley.newRequestQueue(getApplicationContext()).add(request);
     }
+
+    private void checkPermissions() {
+        for (String perm : this.permissions) {
+            if (ActivityCompat.checkSelfPermission(this, perm)
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{perm}, 1);
+            }
+        }
+    }
 }
+
