@@ -70,6 +70,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button l114Button = findViewById(R.id.labListButtonL114);
         l114Button.setOnClickListener(this);
 
+        // create button for friends view
+
         setContentView(R.layout.activity_main);
 
     }

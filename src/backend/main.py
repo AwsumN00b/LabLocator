@@ -60,6 +60,16 @@ async def read_app_data(data: RoomData):
     return {"prediction": result[0]}
 
 
+# simple route to get the friends list and their current locations
+@app.get('/friends')
+async def get_friends_list():
+    # return friend names + current rooms
+    sql = "SELECT user_name, current_room FROM user_table"
+    db_cursor.execute(sql)
+
+    return {i[0]: i[1] for i in db_cursor}
+
+
 def get_prediction(ap_list):
     converted_scan = convert_scan(ap_list)
     return predict_single_scan(knn_model, converted_scan)
