@@ -57,7 +57,7 @@ async def read_app_data(data: RoomData):
     except IndexError:
         raise HTTPException(status_code=500, detail="Internal Server Error")
 
-    log_user_location(result, data.device_id, data.timestamp)
+    log_user_location(result[0], data.device_id, data.timestamp)
 
     return {"prediction": result[0]}
 
@@ -68,8 +68,8 @@ def get_prediction(ap_list):
 
 
 def log_user_location(room, device_id, time):
-    sql = "INSERT into user_location_table (id, room, deviceID, time) VALUES (%s, %s, %s, %s)"
-    val = (str(uuid.uuid4()), room, device_id, time)
+    sql = "INSERT into user_location_table (room, deviceID) VALUES (%s, %s)"
+    val = (room, device_id)
     db_cursor.execute(sql, val)
 
     db_connection.commit()
