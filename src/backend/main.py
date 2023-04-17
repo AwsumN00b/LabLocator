@@ -1,5 +1,6 @@
 import os
 import sys
+import uuid
 
 import mysql.connector
 import uvicorn
@@ -55,7 +56,8 @@ async def read_app_data(data: RoomData):
         result = get_prediction(data.aplist)
     except IndexError:
         raise HTTPException(status_code=500, detail="Internal Server Error")
-    # TODO: Log device, time, and room in DB
+
+    log_user_location(result, data.device_id, data.timestamp)
 
     return {"prediction": result[0]}
 
@@ -63,6 +65,15 @@ async def read_app_data(data: RoomData):
 def get_prediction(ap_list):
     converted_scan = convert_scan(ap_list)
     return predict_single_scan(knn_model, converted_scan)
+
+
+def log_user_location(room, device_id, time):
+    sql = "INSERT into user_location_table (id, room, deviceID, time) VALUES (%s, %s, %s, %s)"
+    val = (str(uuid.uuid4()), room, device_id, time)
+    db_cursor.execute(sql, val)
+
+    db_connection.commit()
+    print(f"{time}: User {device_id} has been logged in {room}")
 
 
 if __name__ == "__main__":
