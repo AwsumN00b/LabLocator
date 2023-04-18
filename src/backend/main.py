@@ -62,6 +62,11 @@ async def read_app_data(data: RoomData):
     return {"prediction": result[0]}
 
 
+@app.get("/room/{room_id}")
+async def get_room_data(room_id):
+    return room_id
+
+
 def get_prediction(ap_list):
     converted_scan = convert_scan(ap_list)
     return predict_single_scan(knn_model, converted_scan)
