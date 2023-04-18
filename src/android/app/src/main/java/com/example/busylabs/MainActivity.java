@@ -71,6 +71,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         l114Button.setOnClickListener(this);
 
         // create button for friends view
+        ImageButton friendsListButton = findViewById(R.id.friendsListButton);
+        friendsListButton.setOnClickListener(this);
 
         setContentView(R.layout.activity_main);
 
@@ -83,6 +85,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (R.id.refreshRoomButton == view.getId()) {
             scanApList();
             return;
+        } else if (R.id.friendsListButton == view.getId()){
+//            Intent friendsIntent = new Intent(this, FriendsActivity.class);
+//            Bundle bundle = new Bundle();
+//
+//            friendsIntent.putExtras(bundle);
+//            startActivity(friendsIntent);
+            setContentView(R.layout.activity_friends);
         }
 
         Intent roomIntent = new Intent(this, RoomActivity.class);

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RoomActivity">
+    tools:context=".FriendsActivity">
 
     <ImageButton
         android:id="@+id/imageButton_back"
@@ -25,7 +25,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
         android:gravity="center"
-        android:text="Friends List"
+        android:text="@string/friends_list"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         app:layout_constraintStart_toEndOf="@+id/imageButton_back"
         app:layout_constraintTop_toTopOf="parent" />
