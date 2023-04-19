@@ -1,5 +1,6 @@
 import os
 import sys
+from collections import defaultdict
 
 import mysql.connector
 import uvicorn
@@ -63,7 +64,14 @@ async def read_app_data(data: RoomData):
 
 @app.get("/room/{room_id}")
 async def get_room_data(room_id):
-    return get_device_locations_this_hour(room_id)
+    room_data = get_device_locations_in_room_this_hour(room_id)
+    return room_population(room_data, room_id)
+
+
+@app.get("/room/")
+async def get_all_room_data():
+    room_data = get_all_devices_this_hour()
+    return room_population(room_data)
 
 
 def get_prediction(ap_list):
@@ -80,7 +88,7 @@ def log_user_location(room, device_id, time):
     print(f"{time}: User {device_id} has been logged in {room}")
 
 
-def get_device_locations_this_hour(room):
+def get_device_locations_in_room_this_hour(room):
     sql = """
     select * from lablocator_db.user_location_table where
     `time` >= DATE_SUB(NOW(), INTERVAL 1 HOUR) and
@@ -90,6 +98,32 @@ def get_device_locations_this_hour(room):
 
     result = db_cursor.fetchall()
     return result
+
+
+def room_population(query_list, room=None):
+    population_dict = defaultdict(zero)
+
+    for entry in query_list:
+        population_dict[entry[1]] += 1
+
+    if room is not None:
+        return population_dict[room]
+    return population_dict
+
+
+def get_all_devices_this_hour():
+    sql = """
+    SELECT * FROM lablocator_db.user_location_table WHERE
+    `time` >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+    """
+    db_cursor.execute(sql)
+
+    result = db_cursor.fetchall()
+    return result
+
+
+def zero():
+    return 0
 
 
 if __name__ == "__main__":
