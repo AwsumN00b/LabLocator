@@ -1,6 +1,5 @@
 import os
 import sys
-import uuid
 
 import mysql.connector
 import uvicorn
@@ -64,7 +63,7 @@ async def read_app_data(data: RoomData):
 
 @app.get("/room/{room_id}")
 async def get_room_data(room_id):
-    return room_id
+    return get_device_locations_this_hour(room_id)
 
 
 def get_prediction(ap_list):
@@ -79,6 +78,18 @@ def log_user_location(room, device_id, time):
 
     db_connection.commit()
     print(f"{time}: User {device_id} has been logged in {room}")
+
+
+def get_device_locations_this_hour(room):
+    sql = """
+    select * from lablocator_db.user_location_table where
+    `time` >= DATE_SUB(NOW(), INTERVAL 1 HOUR) and
+    room = (%s)
+    """
+    db_cursor.execute(sql, [room])
+
+    result = db_cursor.fetchall()
+    return result
 
 
 if __name__ == "__main__":
