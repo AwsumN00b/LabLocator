@@ -6,10 +6,12 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -18,6 +20,7 @@ import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.wifiscanner.ScanData;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,7 +30,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     //    private final String ROOM_REQUEST_URL = "http://localhost:8000/room";
 
@@ -70,13 +73,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button l114Button = findViewById(R.id.labListButtonL114);
         l114Button.setOnClickListener(this);
 
-        // create button for friends view
-        ImageButton friendsListButton = findViewById(R.id.friendsListButton);
+        FloatingActionButton friendsListButton = findViewById(R.id.friendsListButton);
         friendsListButton.setOnClickListener(this);
 
-        setContentView(R.layout.activity_main);
+//        setContentView(R.layout.activity_main);
+        // above code prevents friends button from functioning correctly
 
     }
+
 
 
     @Override
@@ -86,12 +90,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             scanApList();
             return;
         } else if (R.id.friendsListButton == view.getId()){
-//            Intent friendsIntent = new Intent(this, FriendsActivity.class);
-//            Bundle bundle = new Bundle();
-//
-//            friendsIntent.putExtras(bundle);
-//            startActivity(friendsIntent);
-            setContentView(R.layout.activity_friends);
+            Intent friendsIntent = new Intent(this, FriendsActivity.class);
+            startActivity(friendsIntent);
+            return;
         }
 
         Intent roomIntent = new Intent(this, RoomActivity.class);
