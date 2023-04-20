@@ -1,5 +1,6 @@
 import os
 import sys
+from collections import defaultdict
 
 import mysql.connector
 import uvicorn
@@ -55,14 +56,82 @@ async def read_app_data(data: RoomData):
         result = get_prediction(data.aplist)
     except IndexError:
         raise HTTPException(status_code=500, detail="Internal Server Error")
-    # TODO: Log device, time, and room in DB
+
+    log_user_location(result[0], data.device_id, data.timestamp)
 
     return {"prediction": result[0]}
+
+
+@app.get("/room/{room_id}")
+async def get_room_data(room_id):
+    if room_id == "quiet":
+        room_data = get_all_devices_this_hour()
+        return least_populated_room(room_data)
+    room_data = get_device_locations_in_room_this_hour(room_id)
+    return room_population(room_data, room_id)
+
+
+@app.get("/room/")
+async def get_all_room_data():
+    room_data = get_all_devices_this_hour()
+    return room_population(room_data)
 
 
 def get_prediction(ap_list):
     converted_scan = convert_scan(ap_list)
     return predict_single_scan(knn_model, converted_scan)
+
+
+def log_user_location(room, device_id, time):
+    sql = "INSERT into user_location_table (room, deviceID) VALUES (%s, %s)"
+    val = (room, device_id)
+    db_cursor.execute(sql, val)
+
+    db_connection.commit()
+    print(f"{time}: User {device_id} has been logged in {room}")
+
+
+def get_device_locations_in_room_this_hour(room):
+    sql = """
+    select * from lablocator_db.user_location_table where
+    `time` >= DATE_SUB(NOW(), INTERVAL 1 HOUR) and
+    room = (%s)
+    """
+    db_cursor.execute(sql, [room])
+
+    result = db_cursor.fetchall()
+    return result
+
+
+def room_population(query_list, room=None):
+    population_dict = defaultdict(zero)
+
+    for entry in query_list:
+        population_dict[entry[1]] += 1
+
+    if room is not None:
+        return population_dict[room]
+    return population_dict
+
+
+def get_all_devices_this_hour():
+    sql = """
+    SELECT * FROM lablocator_db.user_location_table WHERE
+    `time` >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+    """
+    db_cursor.execute(sql)
+
+    result = db_cursor.fetchall()
+    return result
+
+
+def least_populated_room(room_data):
+    room_count = room_population(room_data)
+    return min(room_count, key=room_count.get)
+
+
+def zero():
+    return 0
 
 
 if __name__ == "__main__":

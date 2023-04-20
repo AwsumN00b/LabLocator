@@ -25,4 +25,6 @@
     <string name="previous">Previous</string>
     <string name="room_name">[ROOM_NAME]</string>
     <string name="refresh_current_room">Refresh current room</string>
+    <string name="least_busy_lab">Least busy lab:</string>
+    <string name="checking">Checking…</string>
 </resources>
