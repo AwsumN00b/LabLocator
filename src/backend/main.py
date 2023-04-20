@@ -93,9 +93,10 @@ def log_user_location(room, device_id, time):
 
 def get_device_locations_in_room_this_hour(room):
     sql = """
-    select * from lablocator_db.user_location_table where
-    `time` >= DATE_SUB(NOW(), INTERVAL 1 HOUR) and
-    room = (%s)
+    SELECT MIN(id), room, MAX(`time`)
+FROM lablocator_db.user_location_table
+WHERE `time` >= DATE_SUB(NOW(), INTERVAL 1 HOUR) AND room = %s
+GROUP BY room
     """
     db_cursor.execute(sql, [room])
 
@@ -116,8 +117,10 @@ def room_population(query_list, room=None):
 
 def get_all_devices_this_hour():
     sql = """
-    SELECT * FROM lablocator_db.user_location_table WHERE
-    `time` >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+    SELECT MIN(id), room, MAX(`time`)
+FROM lablocator_db.user_location_table
+WHERE `time` >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+GROUP BY room
     """
     db_cursor.execute(sql)
 
