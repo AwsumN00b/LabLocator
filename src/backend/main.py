@@ -64,6 +64,9 @@ async def read_app_data(data: RoomData):
 
 @app.get("/room/{room_id}")
 async def get_room_data(room_id):
+    if room_id == "quiet":
+        room_data = get_all_devices_this_hour()
+        return least_populated_room(room_data)
     room_data = get_device_locations_in_room_this_hour(room_id)
     return room_population(room_data, room_id)
 
@@ -120,6 +123,11 @@ def get_all_devices_this_hour():
 
     result = db_cursor.fetchall()
     return result
+
+
+def least_populated_room(room_data):
+    room_count = room_population(room_data)
+    return min(room_count, key=room_count.get)
 
 
 def zero():
