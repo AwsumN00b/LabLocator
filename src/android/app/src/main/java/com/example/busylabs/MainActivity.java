@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         friendsListButton.setOnClickListener(this);
 
 //        setContentView(R.layout.activity_main);
-        // above code prevents friends button from functioning correctly
+        // above line prevents friends button from functioning correctly
 
     }
 

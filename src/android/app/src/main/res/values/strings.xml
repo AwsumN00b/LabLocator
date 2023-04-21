@@ -27,4 +27,7 @@
     <string name="refresh_current_room">Refresh current room</string>
     <string name="friends_list">Friends List</string>
     <string name="todo">TODO</string>
+    <string name="testView" />
+    <string name="test_name" />
+    <string name="test_room" />
 </resources>
