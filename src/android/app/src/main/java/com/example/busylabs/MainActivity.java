@@ -4,6 +4,8 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
@@ -75,8 +77,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         FloatingActionButton friendsListButton = findViewById(R.id.friendsListButton);
         friendsListButton.setOnClickListener(this);
+        friendsListButton.setBackgroundTintList(ColorStateList.valueOf(Color.WHITE));
 
-//        setContentView(R.layout.activity_main);
+        //        setContentView(R.layout.activity_main);
         // above line prevents friends button from functioning correctly
 
     }

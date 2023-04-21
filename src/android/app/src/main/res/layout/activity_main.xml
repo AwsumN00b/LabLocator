@@ -19,7 +19,7 @@
         app:srcCompat="@drawable/ic_baseline_people_alt_24"
         android:scaleType="center"
         android:focusable="true"
-        android:contentDescription="@string/todo" />
+        android:contentDescription="@string/friends_list" />
 
 
     <FrameLayout

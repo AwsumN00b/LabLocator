@@ -51,7 +51,7 @@ public class FriendsActivity extends AppCompatActivity implements View.OnClickLi
                 // temporary + rudimentary divider
                 TextView div = new TextView(this);
                 div.setText("------------------------------------");
-                div.setTextSize(30);
+                div.setTextSize(20);
                 div.setTextColor(Color.LTGRAY);
                 div.setGravity(Gravity.CENTER);
 
