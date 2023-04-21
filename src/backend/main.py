@@ -10,8 +10,12 @@ from typing import Annotated
 
 from model import *
 
-ip_address = sys.argv[1]
-port = int(sys.argv[2])
+try:
+    ip_address = sys.argv[1]
+    port = int(sys.argv[2])
+except IndexError:
+    ip_address = "localhost"
+    port = "8000"
 
 knn_model = joblib.load("model/knn.joblib")
 

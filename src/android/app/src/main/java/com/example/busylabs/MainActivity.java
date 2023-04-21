@@ -82,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if (R.id.refreshRoomButton == view.getId()) {
             scanApList();
+            getBestRoomData();
             return;
         }
 
@@ -116,7 +117,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Thread thread = new Thread(() -> {
             this.isGettingLocation = true;
             ScanData scanData = scanThread.getData();
-            System.out.println(scanData.toString());
             try {
                 updateUserCurrentRoom(scanData);
             } catch (JSONException | IOException e) {
