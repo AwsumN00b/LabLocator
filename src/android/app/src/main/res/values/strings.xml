@@ -25,9 +25,9 @@
     <string name="previous">Previous</string>
     <string name="room_name">[ROOM_NAME]</string>
     <string name="refresh_current_room">Refresh current room</string>
+    <string name="least_busy_lab">Least busy lab:</string>
+    <string name="checking">Checking…</string>
+    <string name="n">[n]</string>
+    <string name="busylabs_users_in_this_room">BusyLabs Users in this room:</string>
     <string name="friends_list">Friends List</string>
-    <string name="todo">TODO</string>
-    <string name="testView" />
-    <string name="test_name" />
-    <string name="test_room" />
 </resources>
