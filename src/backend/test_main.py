@@ -1,13 +1,10 @@
 import os
 import sys
-from errno import errorcode
-from unittest import TestCase
 from unittest.mock import patch
 
 import mysql
 import mysql.connector
 import pytest
-import utils
 from fastapi.testclient import TestClient
 from mock import patch
 
@@ -17,100 +14,36 @@ client = TestClient(app)
 
 sys_args = ["localhost", "8000"]
 
+MYSQL_DB = os.environ.get('SQLDB')
 
-class MockDB(TestCase):
-    @classmethod
-    def setUpClass(cls):
-        MYSQL_DB = os.environ.get('SQLDB')
-        cnx = mysql.connector.connect(
-            host=os.environ.get('SQLHOST'),
-            user=os.environ.get('SQLUSER'),
-            password=os.environ.get('SQLPASS'),
-            port=os.environ.get('SQLPORT'),
-        )
-        cursor = cnx.cursor(dictionary=True)
 
-        try:
-            cursor.execute("DROP DATABASE {}".format(MYSQL_DB))
-            cursor.close()
-            print("DB dropped")
-        except mysql.connector.Error as err:
-            print("{}{}".format(MYSQL_DB, err))
+@pytest.fixture(scope="session")
+def db():
+    cnx = mysql.connector.connect(user='user', password='password',
+                                  host='localhost', database='test_db')
+    cursor = cnx.cursor()
+    cursor.execute(
+        """CREATE TABLE user_location_table (
+        id INT AUTO_INCREMENT PRIMARY KEY, room VARCHAR(255), deviceID VARCHAR(255)), time TIMESTAMP"""
+    )
+    cnx.commit()
+    yield cnx
+    cursor.execute("DROP TABLE items")
+    cnx.commit()
+    cursor.close()
+    cnx.close()
 
-        cursor = cnx.cursor(dictionary=True)
 
-        try:
-            cursor.execute(
-                "CREATE DATABASE {} DEFAULT CHARACTER SET 'utf8'".format(MYSQL_DB)
-            )
-        except mysql.connector.Error as err:
-            print("Failed creating database: {}".format(err))
-            exit(1)
-        cnx.database = MYSQL_DB
+@pytest.fixture(scope="function")
+def cursor(db):
+    cnx = db
+    cursor = cnx.cursor()
+    yield cursor
+    cnx.rollback()
+    cursor.close()
 
-        query = """
-            CREATE TABLE `test_table` (
-            `id` varchar(30) NOT NULL PRIMARY KEY ,
-            `room` varchar(255) NOT NULL,
-            `deviceID` varchar(255) NOT NULL,
-            `time` timestamp NOT NULL
-            )
-            """
-        try:
-            cursor.execute(query)
-            cnx.commit()
-        except mysql.connector.Error as err:
-            if err.errno == errorcode.ER_TABLE_EXISTS_ERROR:
-                print("test_table already exists.")
-            else:
-                print(err.msg)
-        else:
-            print("OK")
 
-        # Insert data
-        insert_data_query = """
-        INSERT INTO `test_table` (`id`, `room`, `deviceID`, `time` VALUES
-        (`1`, `LG25`, `test_id`, `21 December 2000 12:00:00`)
-        (`2`, `LG22`, `android`, `1 April 2023 12:00:00`)
-        """
-
-        try:
-            cursor.execute(insert_data_query)
-            cnx.commit()
-        except mysql.connector.Error as err:
-            print("Data insertion to test_table failed \n" + err.msg)
-        cursor.close()
-        cnx.close()
-
-        test_config = {
-            "host": os.environ.get('SQLHOST'),
-            "user": os.environ.get('SQLUSER'),
-            "password": os.environ.get('SQLPASS'),
-            "port": os.environ.get('SQLPORT'),
-            "database": os.environ.get('SQLDB')
-        }
-        cls.mock_db_config = patch.dict(utils.config, test_config)
-
-    @classmethod
-    def tearDownClass(cls):
-        cnx = mysql.connector.connect(
-            host=os.environ.get('SQLHOST'),
-            user=os.environ.get('SQLUSER'),
-            password=os.environ.get('SQLPASS'),
-            port=os.environ.get('SQLPORT'),
-        )
-        cursor = cnx.cursor(dictionary=True)
-
-        # drop DB
-        try:
-            cursor.execute("DROP DATABASE {}".format(MYSQL_DB))
-            cnx.commit()
-            cursor.close()
-        except mysql.connector.Error as err:
-            print("Database {} does not exist. Dropping DB failed".format(MYSQL_DB))
-        cnx.close()
-
-    fake_room_data = """
+fake_room_data = """
 {
     "device_id": "test",
     "timestamp": 5000,
@@ -141,12 +74,30 @@ class MockDB(TestCase):
 }
 """
 
-    def test_read_app_data():
-        global sys_args
-        with patch.object(sys, "argv", sys_args):
-            response = client.put("/room", json=fake_room_data)
-            assert response.status_code == 200
-            assert response.json() == {"prediction": "LG26"}
 
-    if __name__ == '__main__':
-        testing = pytest.main()
+def test_create_item(cursor):
+    cursor.execute("INSERT INTO user_location_table (room, deviceID) VALUES (%s, %s)", ("Test Room", "Test ID"))
+    assert cursor.lastrowid is not None
+
+
+def test_get_item(cursor):
+    cursor.execute("INSERT INTO user_location_table (room, deviceID) VALUES (%s, %s)", ("Test Room", "Test ID"))
+    item_id = cursor.lastrowid
+    cursor.execute("SELECT id, room, deviceID FROM items WHERE id = %s", (item_id,))
+    item = cursor.fetchone()
+    assert item is not None
+    assert item[0] == item_id
+    assert item[1] == "Test Room"
+    assert item[2] == "Test ID"
+
+
+def test_read_app_data():
+    global sys_args, fake_room_data
+    with patch.object(sys, "argv", sys_args):
+        response = client.put("/room", json=fake_room_data)
+        assert response.status_code == 200
+        assert response.json() == {"prediction": "LG26"}
+
+
+if __name__ == '__main__':
+    testing = pytest.main()
