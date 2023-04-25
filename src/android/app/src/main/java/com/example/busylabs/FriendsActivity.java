@@ -25,7 +25,7 @@ import java.util.Iterator;
 
 public class FriendsActivity extends AppCompatActivity implements View.OnClickListener {
 
-    String FRIENDS_URL = "http://161.35.43.33:8000/room";
+    String FRIENDS_URL = "http://161.35.43.33:8000/friends";
 
     @SuppressLint("ResourceType")
     @Override
