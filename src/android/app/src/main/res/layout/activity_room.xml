@@ -29,4 +29,31 @@
         app:layout_constraintStart_toEndOf="@+id/imageButton_back"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <LinearLayout
+        android:layout_width="394dp"
+        android:layout_height="101dp"
+        android:layout_marginTop="1dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_room_name">
+
+        <TextView
+            android:id="@+id/usersInRoomTextView"
+            android:layout_width="242dp"
+            android:layout_height="43dp"
+            android:layout_weight="1"
+            android:text="@string/busylabs_users_in_this_room"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+        <TextView
+            android:id="@+id/roomPopulation"
+            android:layout_width="wrap_content"
+            android:layout_height="43dp"
+            android:layout_weight="1"
+            android:text="@string/n"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

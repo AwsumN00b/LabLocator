@@ -16,6 +16,7 @@ import androidx.core.app.ActivityCompat;
 
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.wifiscanner.ScanData;
 
@@ -72,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         setContentView(R.layout.activity_main);
 
+        getBestRoomData();
     }
 
 
@@ -100,6 +102,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         textView.setText(string);
     }
 
+    public void updateTextViewLeastBusyLab(String string) {
+        TextView textView = findViewById(R.id.quietRoomValueTextView);
+        textView.setText(string.replace("\"", ""));
+    }
 
     public void scanApList() {
 
@@ -112,17 +118,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             ScanData scanData = scanThread.getData();
             System.out.println(scanData.toString());
             try {
-                getRoom(scanData);
+                updateUserCurrentRoom(scanData);
             } catch (JSONException | IOException e) {
                 e.printStackTrace();
             }
+            this.isGettingLocation = false;
         });
 
         thread.start();
-        this.isGettingLocation = false;
     }
 
-    public void getRoom(ScanData scanData) throws IOException, JSONException {
+    public void updateUserCurrentRoom(ScanData scanData) throws IOException, JSONException {
         String ROOM_REQUEST_URL = "http://161.35.43.33:8000/room";
         List<String> aplist = scanData.toApListString();
 
@@ -151,9 +157,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 },
                 error -> {
-                    updateTextViewCurrentLocation("ERROR");
+                    updateTextViewCurrentLocation("NOT IN LABS");
                     error.printStackTrace();
                 }
+        );
+
+        Volley.newRequestQueue(getApplicationContext()).add(request);
+    }
+
+    public void getBestRoomData() {
+        String ROOM_DATA_URL = "http://161.35.43.33:8000/room/quiet";
+
+        StringRequest request = new StringRequest(
+                Request.Method.GET,
+                ROOM_DATA_URL,
+                this::updateTextViewLeastBusyLab,
+                Throwable::printStackTrace
         );
 
         Volley.newRequestQueue(getApplicationContext()).add(request);
