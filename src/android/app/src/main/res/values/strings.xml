@@ -29,4 +29,5 @@
     <string name="checking">Checking…</string>
     <string name="n">[n]</string>
     <string name="busylabs_users_in_this_room">BusyLabs Users in this room:</string>
+    <string name="friends_list">Friends List</string>
 </resources>
