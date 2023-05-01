@@ -68,8 +68,6 @@ def setup_teardown():
 
     yield
 
-    print("DO WE EVER EVEN GET HERE?")
-
     terminator_thread.join()
 
 
