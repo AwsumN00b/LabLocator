@@ -11,12 +11,12 @@
       <env name="SQLPORT" value="25060" />
       <env name="SQLUSER" value="doadmin" />
     </envs>
-    <option name="SDK_HOME" value="C:\Users\Ethan\AppData\Local\Microsoft\WindowsApps\python3.10.exe" />
-    <option name="SDK_NAME" value="Python 3.10" />
+    <option name="SDK_HOME" value="" />
     <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/backend" />
-    <option name="IS_MODULE_SDK" value="false" />
+    <option name="IS_MODULE_SDK" value="true" />
     <option name="ADD_CONTENT_ROOTS" value="true" />
     <option name="ADD_SOURCE_ROOTS" value="true" />
+    <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
     <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/backend/main.py" />
     <option name="PARAMETERS" value="localhost 8000" />
     <option name="SHOW_COMMAND_LINE" value="false" />

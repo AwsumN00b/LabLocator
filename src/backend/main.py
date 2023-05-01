@@ -1,12 +1,12 @@
 import os
 import sys
 from collections import defaultdict
+from typing import Annotated
 
 import mysql.connector
 import uvicorn
 from fastapi import FastAPI, HTTPException, Query
 from pydantic import BaseModel
-from typing import Annotated
 
 from model import *
 
