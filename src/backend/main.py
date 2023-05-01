@@ -130,10 +130,10 @@ def room_population(query_list, room=None):
 
 def get_all_devices_this_hour():
     sql = """
-    SELECT MIN(id), room
+    SELECT id, room
 FROM lablocator_db.user_location_table
 WHERE `time` >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
-GROUP BY room
+;
     """
     db_cursor.execute(sql)
 

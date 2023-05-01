@@ -1,4 +1,5 @@
 import os
+import threading
 
 import mysql.connector
 import pytest
@@ -13,7 +14,10 @@ client = TestClient(app)
 
 
 @pytest.fixture(scope="session", autouse=True)
-def db_create_drop():
+def setup_teardown():
+    terminator_thread = threading.Thread()
+    terminator_thread.start()
+
     db_host = os.environ.get('SQLHOST')
     db_user = os.environ.get('SQLUSER')
     db_pass = os.environ.get('SQLPASS')
@@ -60,17 +64,13 @@ def db_create_drop():
     for query in create_queries:
         db_cursor.execute(query)
 
-    more = True
-    while more is True:
-        more = db_cursor.nextset()
-
     db_connection.commit()
 
     yield
 
-    drop_query = "DROP TABLE IF EXISTS user_location_table, rooms, user_table;"
-    db_cursor.execute(drop_query)
-    db_cursor.close()
+    print("DO WE EVER EVEN GET HERE?")
+
+    terminator_thread.join()
 
 
 def test_read_app_data():
@@ -152,7 +152,7 @@ def generate_room_data():
     db_connection.commit()
 
 
-def test_get_room_data_quiet(generate_room_data, mocker):
+def test_get_room_data_quiet(mocker):
     mock_room_data = [
         (3, 'LG25'),
         (2, 'LG26'),
@@ -168,7 +168,7 @@ def test_get_room_data_quiet(generate_room_data, mocker):
     assert response.json() == "L128"
 
 
-def test_get_room_data(generate_room_data, mocker):
+def test_get_room_data(mocker):
     mock_device_locations_in_room = [
         (1, 'LG25'),
         (2, 'LG25'),
@@ -180,3 +180,19 @@ def test_get_room_data(generate_room_data, mocker):
 
     assert response.status_code == 200
     assert response.json() == 3
+
+
+def test_get_all_room_data(mocker):
+    mock_room_population = {
+        "LG25": 3,
+        "LG26": 2,
+        "L114": 2,
+        "L101": 2,
+        "L128": 1
+    }
+    mocker.patch("main.room_population", return_value=mock_room_population)
+
+    response = client.get("room/")
+
+    assert response.status_code == 200
+    assert response.json() == mock_room_population
