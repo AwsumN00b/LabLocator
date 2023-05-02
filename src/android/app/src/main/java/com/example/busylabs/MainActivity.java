@@ -8,12 +8,10 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -33,7 +31,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     //    private final String ROOM_REQUEST_URL = "http://localhost:8000/room";
 
@@ -87,14 +85,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-
     @Override
     public void onClick(View view) {
 
         if (R.id.refreshRoomButton == view.getId()) {
             scanApList();
+            getBestRoomData();
             return;
-        } else if (R.id.friendsListButton == view.getId()){
+        } else if (R.id.friendsListButton == view.getId()) {
             Intent friendsIntent = new Intent(this, FriendsActivity.class);
             startActivity(friendsIntent);
             return;
@@ -131,7 +129,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Thread thread = new Thread(() -> {
             this.isGettingLocation = true;
             ScanData scanData = scanThread.getData();
-            System.out.println(scanData.toString());
             try {
                 updateUserCurrentRoom(scanData);
             } catch (JSONException | IOException e) {
