@@ -19,6 +19,7 @@
         app:srcCompat="@drawable/ic_baseline_people_alt_24"
         android:scaleType="center"
         android:focusable="true"
+        android:backgroundTint="?attr/colorPrimary"
         android:contentDescription="@string/friends_list" />
 
 
@@ -34,7 +35,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayoutHeader"
         android:layout_width="421dp"
-        android:layout_height="59dp"
+        android:layout_height="65dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -42,21 +43,21 @@
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/materialToolbarHeader"
             android:layout_width="424dp"
-            android:layout_height="57dp"
+            android:layout_height="64dp"
             android:background="?attr/colorPrimary"
             android:minHeight="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.555"
+            app:layout_constraintHorizontal_bias="0.666"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/textViewHeaderTitle"
-            android:layout_width="113dp"
+            android:layout_width="150sp"
             android:layout_height="33dp"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="16dp"
             android:fontFamily="sans-serif-black"
             android:text="@string/lablocator"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
@@ -69,27 +70,32 @@
             android:id="@+id/textViewCurrentLocation"
             android:layout_width="78dp"
             android:layout_height="32dp"
-            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
+            android:autoSizeMinTextSize="12sp"
+            android:autoSizeMaxTextSize="600sp"
             android:text="@string/locating"
-            android:textAlignment="viewStart"
+            android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             android:textColor="#F8F5F5"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.515" />
 
         <ImageButton
             android:id="@+id/refreshRoomButton"
-            android:layout_width="42dp"
-            android:layout_height="39dp"
-            android:layout_marginTop="8dp"
+            android:layout_width="45dp"
+            android:layout_height="42dp"
+            android:layout_marginTop="12dp"
             android:layout_marginEnd="24dp"
-            android:background="?attr/colorPrimary"
             android:contentDescription="@string/refresh_current_room"
             android:onClick="onClick"
             app:layout_constraintEnd_toStartOf="@+id/textViewCurrentLocation"
+            app:layout_constraintHorizontal_bias="0.949"
+            app:layout_constraintStart_toEndOf="@+id/textViewHeaderTitle"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@android:drawable/ic_popup_sync"
+            app:srcCompat="@drawable/ic_baseline_refresh_24"
+            android:backgroundTint="?attr/colorPrimary"
             tools:ignore="UsingOnClickInXml" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -106,12 +112,19 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginBottom="30sp"
+            android:layout_marginHorizontal="20sp"
+            android:background="@drawable/layout_bg"
+            >
 
             <TextView
                 android:id="@+id/leastBusyLabTextView"
                 android:layout_width="185dp"
                 android:layout_height="51dp"
+                android:textSize="20sp"
+                android:textAlignment="center"
+                android:gravity="center"
                 android:text="@string/least_busy_lab"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
@@ -119,42 +132,72 @@
                 android:id="@+id/quietRoomValueTextView"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:textSize="20sp"
+                android:gravity="center"
+                android:textAlignment="center"
                 android:layout_weight="1"
                 android:text="@string/checking"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large" />
         </LinearLayout>
 
-        <Button
-            android:id="@+id/labListButtonLG25"
+        <TableRow
             android:layout_width="match_parent"
-            android:layout_height="92dp"
-            android:onClick="onClick"
-            android:text="@string/lg25"
-            tools:ignore="UsingOnClickInXml" />
+            android:layout_height="90sp"
+            android:gravity="center"
+            >
 
-        <Button
-            android:id="@+id/labListButtonLG26"
-            android:layout_width="match_parent"
-            android:layout_height="92dp"
-            android:onClick="onClick"
-            android:text="@string/lg26"
-            tools:ignore="UsingOnClickInXml" />
+            <Button
+                android:id="@+id/labListButtonLG25"
+                android:layout_width="130sp"
+                android:layout_height="92dp"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="10sp"
+                android:onClick="onClick"
+                android:text="@string/lg25"
+                android:textSize="25sp"
+                tools:ignore="UsingOnClickInXml" />
 
-        <Button
-            android:id="@+id/labListButtonL101"
-            android:layout_width="match_parent"
-            android:layout_height="92dp"
-            android:onClick="onClick"
-            android:text="@string/l101"
-            tools:ignore="UsingOnClickInXml" />
+            <Button
+                android:id="@+id/labListButtonLG26"
+                android:layout_width="130sp"
+                android:layout_height="92dp"
+                android:layout_marginHorizontal="10sp"
+                android:layout_gravity="center"
+                android:onClick="onClick"
+                android:text="@string/lg26"
+                android:textSize="25sp"
+                tools:ignore="UsingOnClickInXml" />
 
-        <Button
-            android:id="@+id/labListButtonL114"
+        </TableRow>
+
+        <TableRow
             android:layout_width="match_parent"
-            android:layout_height="92dp"
-            android:onClick="onClick"
-            android:text="@string/l114"
-            tools:ignore="UsingOnClickInXml" />
+            android:layout_height="90sp"
+            android:gravity="center"
+            >
+
+            <Button
+                android:id="@+id/labListButtonL114"
+                android:layout_width="130sp"
+                android:layout_height="92dp"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="10sp"
+                android:onClick="onClick"
+                android:text="@string/l114"
+                android:textSize="25sp"
+                tools:ignore="UsingOnClickInXml" />
+
+            <Button
+                android:id="@+id/labListButtonL101"
+                android:layout_width="130sp"
+                android:layout_height="92dp"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="10sp"
+                android:onClick="onClick"
+                android:text="@string/l101"
+                android:textSize="25sp"
+                tools:ignore="UsingOnClickInXml" />
+        </TableRow>
 
     </LinearLayout>
 
