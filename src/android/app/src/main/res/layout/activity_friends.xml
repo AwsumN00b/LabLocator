@@ -39,6 +39,8 @@
         android:layout_height="80dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="4dp"
+        android:layout_marginBottom="50dp"
+        android:textStyle="bold"
         android:gravity="center"
         android:text="@string/friends_list"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"

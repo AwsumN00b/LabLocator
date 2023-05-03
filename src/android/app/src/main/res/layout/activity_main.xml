@@ -80,7 +80,7 @@
         app:layout_constraintTop_toBottomOf="@+id/constraintLayoutHeader">
 
         <TableRow
-            android:layout_width="338dp"
+            android:layout_width="350dp"
             android:layout_height="60sp"
             android:layout_marginHorizontal="20sp"
             android:layout_marginVertical="10sp"
@@ -90,7 +90,7 @@
                 android:layout_width="200dp"
                 android:layout_height="match_parent"
                 android:background="@drawable/layout_bg"
-                android:backgroundTint="@android:color/holo_blue_dark"
+                android:backgroundTint="#8094FD"
                 android:gravity="center"
                 android:orientation="horizontal">
 
@@ -134,7 +134,7 @@
                 android:layout_marginHorizontal="20sp"
                 android:layout_marginBottom="30sp"
                 android:background="@drawable/layout_bg"
-                android:backgroundTint="@android:color/holo_blue_light"
+                android:backgroundTint="#8095FE"
                 android:orientation="horizontal"
                 android:paddingHorizontal="5sp">
 
@@ -164,7 +164,7 @@
 
     </LinearLayout>
 
-    <LinearLayout
+    <TableLayout
         android:id="@+id/buttonPanel"
         android:layout_width="402dp"
         android:layout_height="511dp"
@@ -175,38 +175,17 @@
         app:layout_constraintTop_toBottomOf="@+id/info_layout">
 
         <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="90sp"
+            android:layout_width="100dp"
+            android:layout_height="38dp"
             android:gravity="center">
-
-            <Button
-                android:id="@+id/labListButtonLG25"
-                android:layout_width="130sp"
-                android:layout_height="92dp"
-                android:layout_gravity="center"
-                android:layout_marginHorizontal="10sp"
-                android:onClick="onClick"
-                android:text="@string/lg25"
-                android:textSize="25sp"
-                tools:ignore="UsingOnClickInXml" />
-
-            <Button
-                android:id="@+id/labListButtonLG26"
-                android:layout_width="130sp"
-                android:layout_height="92dp"
-                android:layout_gravity="center"
-                android:layout_marginHorizontal="10sp"
-                android:onClick="onClick"
-                android:text="@string/lg26"
-                android:textSize="25sp"
-                tools:ignore="UsingOnClickInXml" />
 
         </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="90sp"
-            android:gravity="center">
+            android:gravity="center"
+            android:visibility="gone">
 
             <Button
                 android:id="@+id/labListButtonL114"
@@ -233,9 +212,10 @@
         </TableRow>
 
         <TableRow
-            android:layout_width="match_parent"
+            android:layout_width="10dp"
             android:layout_height="90sp"
-            android:gravity="center">
+            android:gravity="center"
+            android:visibility="gone">
 
             <Button
                 android:id="@+id/labListButtonL129"
@@ -263,7 +243,8 @@
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="90sp"
-            android:gravity="center">
+            android:gravity="center"
+            android:visibility="gone">
 
             <Button
                 android:id="@+id/labListButtonL128"
@@ -288,6 +269,6 @@
                 tools:ignore="UsingOnClickInXml" />
         </TableRow>
 
-    </LinearLayout>
+    </TableLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

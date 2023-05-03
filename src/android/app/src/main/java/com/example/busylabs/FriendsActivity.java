@@ -52,7 +52,6 @@ public class FriendsActivity extends AppCompatActivity implements View.OnClickLi
 
                 LinearLayout div = new LinearLayout(this);
                 div.setBackgroundResource(R.drawable.layout_bg);
-//                RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) div.getLayoutParams();
 
                 div.setMinimumHeight(15);
                 div.setMinimumWidth(675);
@@ -85,9 +84,14 @@ public class FriendsActivity extends AppCompatActivity implements View.OnClickLi
 
         TextView name = new TextView(this);
         TextView room = new TextView(this);
-        lp.setMargins(20,15,20,15);
 
+        lp.setMargins(20,15,20,15);
         name.setTextSize(25);
+
+
+        LinearLayout ll = new LinearLayout(this);
+        ll.setBackgroundResource(R.drawable.layout_bg);
+        ll.addView(room, lp);
         room.setTextSize(25);
 
         name.setLayoutParams(lp);
@@ -101,11 +105,8 @@ public class FriendsActivity extends AppCompatActivity implements View.OnClickLi
             e.printStackTrace();
         }
 
-        room.setBackgroundResource(R.drawable.layout_bg);
-
-
         row.addView(name);
-        row.addView(room);
+        row.addView(ll);
 
         row.setGravity(Gravity.CENTER);
         row.setPadding(15,30,15,30);
