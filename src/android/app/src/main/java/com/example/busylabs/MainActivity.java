@@ -75,10 +75,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         l101Button.setOnClickListener(this);
         Button l114Button = findViewById(R.id.labListButtonL114);
         l114Button.setOnClickListener(this);
+        Button l129Button = findViewById(R.id.labListButtonL129);
+        l129Button.setOnClickListener(this);
+        Button l125Button = findViewById(R.id.labListButtonL125);
+        l125Button.setOnClickListener(this);
+        Button l128Button = findViewById(R.id.labListButtonL128);
+        l128Button.setOnClickListener(this);
+        Button lg27Button = findViewById(R.id.labListButtonLG27);
+        lg27Button.setOnClickListener(this);
 
         FloatingActionButton friendsListButton = findViewById(R.id.friendsListButton);
         friendsListButton.setOnClickListener(this);
-        friendsListButton.setBackgroundTintList(ColorStateList.valueOf(Color.WHITE));
 
         //        setContentView(R.layout.activity_main);
         // above line prevents friends button from functioning correctly
@@ -115,6 +122,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void updateTextViewCurrentLocation(String string) {
         TextView textView = findViewById(R.id.textViewCurrentLocation);
         textView.setText(string);
+
     }
 
     public void updateTextViewLeastBusyLab(String string) {
@@ -172,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 },
                 error -> {
-                    updateTextViewCurrentLocation("NOT IN LABS");
+                    updateTextViewCurrentLocation("N/A");
                     error.printStackTrace();
                 }
         );

@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -48,17 +49,14 @@ public class FriendsActivity extends AppCompatActivity implements View.OnClickLi
             while(keys.hasNext()) {
                 String key = keys.next();
 
-                // temporary + rudimentary divider
-                TextView div = new TextView(this);
-                div.setText("------------------------------------");
-                div.setTextSize(20);
-                div.setTextColor(Color.LTGRAY);
-                div.setGravity(Gravity.CENTER);
+                LinearLayout div = new LinearLayout(this);
+                div.setBackgroundResource(R.drawable.layout_bg);
+                div.setMinimumHeight(15);
+                div.setMinimumWidth(650);
 
                 TableRow t = new TableRow(this);
                 t.addView(div);
                 t.setGravity(Gravity.CENTER);
-
                 friendsTable.addView(t);
 
                 TableRow row = createTableRow(response, key);
@@ -100,6 +98,10 @@ public class FriendsActivity extends AppCompatActivity implements View.OnClickLi
             e.printStackTrace();
         }
 
+        room.setBackgroundResource(R.drawable.layout_bg);
+        name.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                R.drawable.ic_baseline_star_24,0,0,0
+        );
         row.addView(name);
         row.addView(room);
 
