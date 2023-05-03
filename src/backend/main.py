@@ -1,17 +1,21 @@
 import os
 import sys
 from collections import defaultdict
+from typing import Annotated
 
 import mysql.connector
 import uvicorn
 from fastapi import FastAPI, HTTPException, Query
 from pydantic import BaseModel
-from typing import Annotated
 
 from model import *
 
-ip_address = sys.argv[1]
-port = int(sys.argv[2])
+try:
+    ip_address = sys.argv[1]
+    port = int(sys.argv[2])
+except IndexError:
+    ip_address = "localhost"
+    port = "8000"
 
 knn_model = joblib.load("model/knn.joblib")
 
@@ -100,15 +104,14 @@ def log_user_location(room, device_id, time):
     db_cursor.execute(sql, val)
 
     db_connection.commit()
-    print(f"{time}: User {device_id} has been logged in {room}")
 
 
 def get_device_locations_in_room_this_hour(room):
     sql = """
-    SELECT MIN(id), room, MAX(`time`)
+    SELECT id, room
 FROM lablocator_db.user_location_table
 WHERE `time` >= DATE_SUB(NOW(), INTERVAL 1 HOUR) AND room = %s
-GROUP BY room
+;
     """
     db_cursor.execute(sql, [room])
 
@@ -129,10 +132,10 @@ def room_population(query_list, room=None):
 
 def get_all_devices_this_hour():
     sql = """
-    SELECT MIN(id), room, MAX(`time`)
+    SELECT id, room
 FROM lablocator_db.user_location_table
 WHERE `time` >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
-GROUP BY room
+;
     """
     db_cursor.execute(sql)
 
@@ -141,8 +144,7 @@ GROUP BY room
 
 
 def least_populated_room(room_data):
-    room_count = room_population(room_data)
-    return min(room_count, key=room_count.get)
+    return min(room_data, key=lambda t: t[0])[1]
 
 
 def zero():

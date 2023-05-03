@@ -4,12 +4,10 @@ import android.content.Context;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 
-import com.example.wifiscanner.AccessPoint;
 import com.example.wifiscanner.ScanData;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.List;
 
 public class ScanThread extends Thread {
 
