@@ -76,6 +76,8 @@ async def get_friends_list():
 async def get_room_data(room_id):
     if room_id == "quiet":
         room_data = get_all_devices_this_hour()
+        if not room_data:
+            return "LG25"
         return least_populated_room(room_data)
     room_data = get_device_locations_in_room_this_hour(room_id)
     return room_population(room_data, room_id)
