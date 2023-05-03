@@ -32,29 +32,23 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
-        android:layout_width="413dp"
-        android:layout_height="380dp"
+        android:layout_width="409dp"
+        android:layout_height="633dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_room_name">
-
-        <View
-            android:id="@+id/view"
-            android:layout_width="350dp"
-            android:layout_height="7dp"
-            android:background="@drawable/layout_bg"
-            app:layout_constraintBottom_toTopOf="@+id/room_info"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textView_room_name"
+        app:layout_constraintVertical_bias="0.627">
 
         <LinearLayout
             android:id="@+id/room_info"
             android:layout_width="394dp"
             android:layout_height="101dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="32dp"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.466"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -89,6 +83,45 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/room_info" />
 
+        <View
+            android:id="@+id/view2"
+            android:layout_width="350dp"
+            android:layout_height="7dp"
+            android:background="@drawable/layout_bg"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/room_map" />
+
+        <TableLayout
+            android:id="@+id/friendsInRoom"
+            android:layout_width="410dp"
+            android:layout_height="224dp"
+            android:layout_marginTop="12dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingHorizontal="20sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view2"
+            app:layout_constraintVertical_bias="0.062">
+
+            <TextView
+                android:id="@+id/friendsInRoomTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/friends_in_room"
+                android:textAlignment="center"
+                android:textAllCaps="true"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+
+
+        </TableLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ProgressBar
@@ -103,5 +136,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/constraintLayout"
         app:layout_constraintVertical_bias="0.377" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="350dp"
+        android:layout_height="7dp"
+        android:background="@drawable/layout_bg"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_room_name" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

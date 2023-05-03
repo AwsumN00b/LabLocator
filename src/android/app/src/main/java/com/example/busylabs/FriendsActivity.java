@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -51,8 +52,10 @@ public class FriendsActivity extends AppCompatActivity implements View.OnClickLi
 
                 LinearLayout div = new LinearLayout(this);
                 div.setBackgroundResource(R.drawable.layout_bg);
+//                RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) div.getLayoutParams();
+
                 div.setMinimumHeight(15);
-                div.setMinimumWidth(650);
+                div.setMinimumWidth(675);
 
                 TableRow t = new TableRow(this);
                 t.addView(div);
@@ -99,13 +102,14 @@ public class FriendsActivity extends AppCompatActivity implements View.OnClickLi
         }
 
         room.setBackgroundResource(R.drawable.layout_bg);
-        name.setCompoundDrawablesRelativeWithIntrinsicBounds(
-                R.drawable.ic_baseline_star_24,0,0,0
-        );
+
+
         row.addView(name);
         row.addView(room);
 
         row.setGravity(Gravity.CENTER);
+        row.setPadding(15,30,15,30);
+
 
         return row;
     }

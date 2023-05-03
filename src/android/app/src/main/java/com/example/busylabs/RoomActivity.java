@@ -2,17 +2,29 @@ package com.example.busylabs;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.w3c.dom.Text;
+
+import java.util.Iterator;
 import java.util.Locale;
 
 public class RoomActivity extends AppCompatActivity implements View.OnClickListener {
@@ -35,6 +47,7 @@ public class RoomActivity extends AppCompatActivity implements View.OnClickListe
 
         roomMap.setImageDrawable(id);
         getRoomPopulation();
+        getFriendsInRoom();
         findViewById(R.id.room_info).setVisibility(View.INVISIBLE);
         findViewById(R.id.room_progressBar).setVisibility(View.VISIBLE);
     }
@@ -50,19 +63,50 @@ public class RoomActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.room_progressBar).setVisibility(View.GONE);
     }
 
-//    public void showFriendsInRoom()
+    public void showFriendsInRoom(JSONObject json) {
+
+        TableLayout table = findViewById(R.id.friendsInRoom);
+        TableRow.LayoutParams rowParams = new TableRow.LayoutParams(
+                TableRow.LayoutParams.WRAP_CONTENT,
+                TableRow.LayoutParams.MATCH_PARENT
+        );
+        rowParams.setMargins(15, 15, 15, 15);
+
+        Iterator<String> keys = json.keys();
+        while (keys.hasNext()){
+            String name = keys.next();
+            TableRow t = new TableRow(this);
+            TextView user = new TextView(this);
+            try {
+                String room = json.getString(name);
+                if(room.equals(roomName)) {
+                    table.setVisibility(View.VISIBLE);
+                    findViewById(R.id.view2).setVisibility(View.VISIBLE);
+
+                    user.setText(name);
+                    user.setTextSize(25);
+                    t.addView(user);
+                    t.setLayoutParams(rowParams);
+                    t.setGravity(Gravity.CENTER_HORIZONTAL);
+                    table.addView(t);
+                }
+                } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
 
     public void getFriendsInRoom() {
         String FRIENDS_URL = "http://161.35.43.33:8000/friends";
 
-
-        StringRequest request = new StringRequest(
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET,
                 FRIENDS_URL,
-                this::updateTextViewRoomPopulation,
-                Throwable::printStackTrace
-        );
-        Volley.newRequestQueue(getApplicationContext()).add(request);
+                null,
+                this::showFriendsInRoom,
+                error -> Toast.makeText(this, "ERROR", Toast.LENGTH_SHORT).show());
+        Volley.newRequestQueue(getApplicationContext()).add(jsonObjectRequest);
 
     }
 
