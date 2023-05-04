@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         );
         lp.setMargins(100, 100, 100, 100);
 
-        for (int i = 0; i< rooms.length;i+=2){
+        for (int i = 0; i < rooms.length; i += 2) {
             Button button1 = new Button(this);
             Button button2 = new Button(this);
 
@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             button2.setOnClickListener(this);
 
             button1.setText(rooms[i]);
-            button2.setText(rooms[i+1]);
+            button2.setText(rooms[i + 1]);
 
             TableRow t = new TableRow(this);
             TableLayout b = findViewById(R.id.buttonPanel);
@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     @SuppressLint("ResourceAsColor")
-    public LinearLayout mainButtonStyler(Button button){
+    public LinearLayout mainButtonStyler(Button button) {
         LinearLayout ll = new LinearLayout(this);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -209,9 +209,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 jsonBody,
                 response -> {
                     try {
-                        String room = response.getString("prediction");
+                        if (response.getString("status").equals("200")) {
 
-                        if (!room.equals("")) {
+                            String room = response.getString("prediction");
+
                             updateTextViewCurrentLocation(room);
                             this.currentRoom = room;
                         }
