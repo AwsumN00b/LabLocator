@@ -30,4 +30,12 @@
     <string name="n">[n]</string>
     <string name="busylabs_users_in_this_room">BusyLabs Users in this room:</string>
     <string name="friends_list">Friends List</string>
+    <string name="l129">L129</string>
+    <string name="l125">L125</string>
+    <string name="l128">L128</string>
+    <string name="lg27">LG27</string>
+    <string name="BusyLabs">BusyLabs</string>
+    <string name="friends_in_room">Friends in room</string>
+    <string name="friends">Friends</string>
+    <string name="room_map">room map</string>
 </resources>

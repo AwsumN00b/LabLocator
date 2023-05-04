@@ -4,17 +4,21 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -48,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     ScanThread scanThread;
     public String currentRoom = "";
+    public String[] rooms = {"LG25", "LG26", "LG27", "L114", "L101", "L125", "L128", "L129"};
 
     @SuppressLint("HardwareIds")
     @Override
@@ -65,18 +70,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ImageButton refreshRoomButton = findViewById(R.id.refreshRoomButton);
         refreshRoomButton.setOnClickListener(this);
 
-        Button lg25Button = findViewById(R.id.labListButtonLG25);
-        lg25Button.setOnClickListener(this);
-        Button lg26Button = findViewById(R.id.labListButtonLG26);
-        lg26Button.setOnClickListener(this);
-        Button l101Button = findViewById(R.id.labListButtonL101);
-        l101Button.setOnClickListener(this);
-        Button l114Button = findViewById(R.id.labListButtonL114);
-        l114Button.setOnClickListener(this);
+        // set up room buttons
+
+        TableRow.LayoutParams lp = new TableRow.LayoutParams(
+                TableRow.LayoutParams.WRAP_CONTENT,
+                TableRow.LayoutParams.MATCH_PARENT
+        );
+        lp.setMargins(100, 100, 100, 100);
+
+        for (int i = 0; i< rooms.length;i+=2){
+            Button button1 = new Button(this);
+            Button button2 = new Button(this);
+
+            button1.setOnClickListener(this);
+            button2.setOnClickListener(this);
+
+            button1.setText(rooms[i]);
+            button2.setText(rooms[i+1]);
+
+            TableRow t = new TableRow(this);
+            TableLayout b = findViewById(R.id.buttonPanel);
+
+            LinearLayout ll1 = mainButtonStyler(button1);
+            LinearLayout ll2 = mainButtonStyler(button2);
+
+            t.addView(ll1);
+            t.addView(ll2);
+            t.setGravity(Gravity.CENTER);
+
+            b.addView(t);
+
+
+        }
 
         FloatingActionButton friendsListButton = findViewById(R.id.friendsListButton);
         friendsListButton.setOnClickListener(this);
-        friendsListButton.setBackgroundTintList(ColorStateList.valueOf(Color.WHITE));
+
 
         //        setContentView(R.layout.activity_main);
         // above line prevents friends button from functioning correctly
@@ -109,6 +138,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         startActivity(roomIntent);
     }
 
+
+    @SuppressLint("ResourceAsColor")
+    public LinearLayout mainButtonStyler(Button button){
+        LinearLayout ll = new LinearLayout(this);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.MATCH_PARENT
+        );
+        lp.setMargins(30, 20, 30, 20);
+
+        button.setHeight(275);
+        button.setWidth(450);
+        button.setTextSize(25);
+
+        // change colour but retain styles
+        button.getBackground().setColorFilter(ContextCompat.getColor(this, R.color.purple_200), PorterDuff.Mode.MULTIPLY);
+
+        ll.addView(button, lp);
+        return ll;
+    }
 
     public void updateTextViewCurrentLocation(String string) {
         TextView textView = findViewById(R.id.textViewCurrentLocation);
@@ -169,7 +218,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 },
                 error -> {
-                    updateTextViewCurrentLocation("NOT IN LABS");
+                    updateTextViewCurrentLocation("N/A");
                     error.printStackTrace();
                 }
         );
