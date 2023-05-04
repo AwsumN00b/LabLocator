@@ -47,7 +47,7 @@ public class FriendsActivity extends AppCompatActivity implements View.OnClickLi
 
 
             Iterator<String> keys = response.keys();
-            while(keys.hasNext()) {
+            while (keys.hasNext()) {
                 String key = keys.next();
 
                 LinearLayout div = new LinearLayout(this);
@@ -72,22 +72,21 @@ public class FriendsActivity extends AppCompatActivity implements View.OnClickLi
         queue.add(jsonObjectRequest);
     }
 
-    public TableRow createTableRow(JSONObject response, String key){
+    public TableRow createTableRow(JSONObject response, String key) {
 
         TableRow row = new TableRow(this);
         TableRow.LayoutParams lp = new TableRow.LayoutParams(
                 TableRow.LayoutParams.WRAP_CONTENT,
                 TableRow.LayoutParams.MATCH_PARENT
         );
-        lp.setMargins(20,40,20,40);
+        lp.setMargins(20, 40, 20, 40);
         row.setLayoutParams(lp);
 
         TextView name = new TextView(this);
         TextView room = new TextView(this);
+        lp.setMargins(20, 15, 20, 15);
 
-        lp.setMargins(20,15,20,15);
         name.setTextSize(25);
-
 
         LinearLayout ll = new LinearLayout(this);
         ll.setBackgroundResource(R.drawable.layout_bg);

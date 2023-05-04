@@ -12,7 +12,7 @@ import java.util.List;
 public class ScanData {
 
     public String timestamp;
-    String location;
+    public String location;
     String ssid;
     String bssid;
     int rssi;
