@@ -2,6 +2,7 @@ package com.example.busylabs;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -67,7 +68,7 @@ public class FriendsActivity extends AppCompatActivity implements View.OnClickLi
 
             }
 
-        }, (Response.ErrorListener) error -> Toast.makeText(this, "ERROR", Toast.LENGTH_LONG).show());
+        }, Throwable::printStackTrace);
 
         queue.add(jsonObjectRequest);
     }
@@ -87,22 +88,27 @@ public class FriendsActivity extends AppCompatActivity implements View.OnClickLi
         lp.setMargins(20, 15, 20, 15);
 
         name.setTextSize(25);
+        room.setTextSize(25);
+
+        room.setTypeface(null, Typeface.BOLD);
+
 
         LinearLayout ll = new LinearLayout(this);
         ll.setBackgroundResource(R.drawable.layout_bg);
         ll.addView(room, lp);
-        room.setTextSize(25);
 
         name.setLayoutParams(lp);
         room.setLayoutParams(lp);
 
 
         name.setText(key);
+
         try {
             room.setText(response.getString(key));
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
 
         row.addView(name);
         row.addView(ll);

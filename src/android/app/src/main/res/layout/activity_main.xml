@@ -80,17 +80,17 @@
         app:layout_constraintTop_toBottomOf="@+id/constraintLayoutHeader">
 
         <TableRow
-            android:layout_width="350dp"
+            android:layout_width="380dp"
             android:layout_height="60sp"
             android:layout_marginHorizontal="20sp"
             android:layout_marginVertical="10sp"
+            android:gravity="clip_horizontal"
             android:paddingHorizontal="20sp">
 
             <LinearLayout
                 android:layout_width="200dp"
                 android:layout_height="match_parent"
                 android:background="@drawable/layout_bg"
-                android:backgroundTint="#8094FD"
                 android:gravity="center"
                 android:orientation="horizontal">
 
@@ -122,19 +122,18 @@
         </TableRow>
 
         <TableRow
-            android:layout_width="348dp"
+            android:layout_width="344dp"
             android:layout_height="60sp"
             android:layout_marginHorizontal="20sp"
             android:layout_marginVertical="5dp"
             android:gravity="center_horizontal">
 
             <LinearLayout
-                android:layout_width="300dp"
+                android:layout_width="335dp"
                 android:layout_height="50dp"
                 android:layout_marginHorizontal="20sp"
                 android:layout_marginBottom="30sp"
                 android:background="@drawable/layout_bg"
-                android:backgroundTint="#8095FE"
                 android:orientation="horizontal"
                 android:paddingHorizontal="5sp">
 
@@ -151,7 +150,7 @@
 
                 <TextView
                     android:id="@+id/quietRoomValueTextView"
-                    android:layout_width="0dp"
+                    android:layout_width="156dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
