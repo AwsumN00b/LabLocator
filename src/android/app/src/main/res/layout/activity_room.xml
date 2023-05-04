@@ -10,7 +10,7 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        app:layout_constraintBottom_toTopOf="@+id/constraintLayout">
+        app:layout_constraintBottom_toTopOf="@+id/roomInfoLayout">
 
         <ImageButton
             android:id="@+id/imageButton_back"
@@ -38,6 +38,7 @@
         android:id="@+id/roomInfoLayout"
         android:layout_width="409dp"
         android:layout_height="633dp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

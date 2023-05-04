@@ -11,12 +11,13 @@
         android:id="@+id/friendsListButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
         android:clickable="true"
         android:contentDescription="@string/friends_list"
         android:focusable="true"
         android:scaleType="center"
+        android:layout_margin="25dp"
+        app:fabCustomSize="60dp"
+        app:maxImageSize="35dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_baseline_people_alt_24" />
@@ -146,7 +147,7 @@
                     android:textAlignment="center"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textSize="20sp"
-                    android:textStyle="bold" />
+                    />
 
                 <TextView
                     android:id="@+id/quietRoomValueTextView"
@@ -155,6 +156,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="@string/checking"
+                    android:textStyle="bold"
                     android:textAlignment="center"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textSize="20sp" />
