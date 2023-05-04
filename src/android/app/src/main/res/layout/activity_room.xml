@@ -7,9 +7,10 @@
     tools:context=".RoomActivity">
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        app:layout_constraintBottom_toTopOf="@+id/constraintLayout">
+        app:layout_constraintBottom_toTopOf="@+id/roomInfoLayout">
 
         <ImageButton
             android:id="@+id/imageButton_back"
@@ -34,9 +35,10 @@
     </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
+        android:id="@+id/roomInfoLayout"
         android:layout_width="409dp"
         android:layout_height="633dp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -86,8 +88,8 @@
             android:layout_height="175dp"
             android:layout_marginTop="32dp"
             android:background="@drawable/layout_bg"
-            android:paddingHorizontal="10dp"
             android:contentDescription="@string/room_map"
+            android:paddingHorizontal="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.49"
             app:layout_constraintStart_toStartOf="parent"
@@ -154,12 +156,11 @@
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/constraintLayout"
+        app:layout_constraintTop_toTopOf="@+id/linearLayout"
         app:layout_constraintVertical_bias="0.377" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -48,7 +48,7 @@ public class RoomActivity extends AppCompatActivity implements View.OnClickListe
         roomMap.setImageDrawable(id);
         getRoomPopulation();
         getFriendsInRoom();
-        findViewById(R.id.room_info).setVisibility(View.INVISIBLE);
+//        findViewById(R.id.room_info).setVisibility(View.INVISIBLE);
         findViewById(R.id.room_progressBar).setVisibility(View.VISIBLE);
     }
     @Override
@@ -59,8 +59,10 @@ public class RoomActivity extends AppCompatActivity implements View.OnClickListe
     public void updateTextViewRoomPopulation(String string) {
         TextView textView = findViewById(R.id.roomPopulation);
         textView.setText(string);
-        findViewById(R.id.room_info).setVisibility(View.VISIBLE);
+//        findViewById(R.id.room_info).setVisibility(View.VISIBLE);
         findViewById(R.id.room_progressBar).setVisibility(View.GONE);
+        findViewById(R.id.roomInfoLayout).setVisibility(View.VISIBLE);
+
     }
 
     public void showFriendsInRoom(JSONObject json) {
@@ -105,7 +107,8 @@ public class RoomActivity extends AppCompatActivity implements View.OnClickListe
                 FRIENDS_URL,
                 null,
                 this::showFriendsInRoom,
-                error -> Toast.makeText(this, "ERROR", Toast.LENGTH_SHORT).show());
+                Throwable::printStackTrace
+        );
         Volley.newRequestQueue(getApplicationContext()).add(jsonObjectRequest);
 
     }
