@@ -203,27 +203,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         jsonBody.put("aplist", jsonArray);
 
+        //                    updateTextViewCurrentLocation("N/A");
         JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.PUT,
                 ROOM_REQUEST_URL,
                 jsonBody,
                 response -> {
                     try {
-                        if (response.getString("status").equals("200")) {
-
                             String room = response.getString("prediction");
 
                             updateTextViewCurrentLocation(room);
                             this.currentRoom = room;
-                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 },
-                error -> {
-                    updateTextViewCurrentLocation("N/A");
-                    error.printStackTrace();
-                }
+                Throwable::printStackTrace
         );
 
         Volley.newRequestQueue(getApplicationContext()).add(request);
