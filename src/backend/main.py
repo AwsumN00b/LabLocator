@@ -124,7 +124,6 @@ ORDER BY time
 
 
 def room_population(query_list, room=None):
-    print(query_list)
     population = defaultdict(zero)
     seen_devices = []
     for query in query_list:
