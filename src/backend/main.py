@@ -69,6 +69,7 @@ async def read_app_data(data: RoomData):
 # simple route to get the friends list and their current locations
 @app.get('/friends')
 async def get_friends_list():
+    ping_db()
     # return friend names + current rooms
     sql = "SELECT user_name, current_room FROM user_table"
     db_cursor.execute(sql)
@@ -99,6 +100,7 @@ def get_prediction(ap_list):
 
 
 def log_user_location(room, device_id, time):
+    ping_db()
     sql = "INSERT into user_location_table (room, deviceID) VALUES (%s, %s)"
     val = (room, device_id)
     db_cursor.execute(sql, val)
@@ -107,6 +109,7 @@ def log_user_location(room, device_id, time):
 
 
 def get_device_locations_in_room_this_hour(room):
+    ping_db()
     sql = """
     SELECT id, room
 FROM lablocator_db.user_location_table
@@ -131,6 +134,7 @@ def room_population(query_list, room=None):
 
 
 def get_all_devices_this_hour():
+    ping_db()
     sql = """
     SELECT id, room
 FROM lablocator_db.user_location_table
@@ -145,6 +149,11 @@ WHERE `time` >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
 
 def least_populated_room(room_data):
     return min(room_data, key=lambda t: t[0])[1]
+
+
+def ping_db():
+    global db_connection
+    db_connection.ping(True)
 
 
 def zero():
