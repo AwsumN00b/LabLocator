@@ -211,8 +211,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     try {
                         String room = response.getString("prediction");
 
-                        updateTextViewCurrentLocation(room);
-                        this.currentRoom = room;
+                        if (!room.equals("")) {
+                            updateTextViewCurrentLocation(room);
+                            this.currentRoom = room;
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
