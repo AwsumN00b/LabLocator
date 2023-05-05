@@ -56,13 +56,12 @@
 
         <TextView
             android:id="@+id/textViewHeaderTitle"
-            android:layout_width="119dp"
-            android:layout_height="35dp"
+            android:layout_width="169dp"
+            android:layout_height="31dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:fontFamily="sans-serif-black"
-            android:text="@string/BusyLabs"
-            android:textAlignment="center"
+            android:text="@string/lablocator"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             android:textColor="#FDFDFD"
             android:textSize="20sp"
