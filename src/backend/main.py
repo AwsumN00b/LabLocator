@@ -81,7 +81,7 @@ async def get_friends_list():
 async def get_room_data(room_id):
     if room_id == "quiet":
         room_data = get_all_devices_this_hour()
-        if not room_data:
+        if len(room_data) == 0:
             return "LG25"
         return least_populated_room(room_data)
     room_data = get_device_locations_in_room_this_hour(room_id)
@@ -130,7 +130,6 @@ def room_population(query_list, room=None):
         if query[2] in seen_devices:
             continue
         else:
-            print(query[2])
             seen_devices.append(query[2])
             population[query[1]] += 1
 
@@ -153,7 +152,8 @@ ORDER BY time
 
 
 def least_populated_room(room_data):
-    return min(room_data, key=lambda t: t[0])[1]
+    room_data = room_population(room_data)
+    return min(room_data, key=room_data.get)
 
 
 def ping_db():
