@@ -102,6 +102,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             button1.setText(rooms[i]);
             button2.setText(rooms[i + 1]);
 
+            button1.setTag(rooms[i]);
+            button2.setTag(rooms[i+1]);
+
             button1.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
             button2.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
 
@@ -118,7 +121,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             b.addView(t);
         }
 
-        updateButtonPercentage("LG25", "50%");
 
         FloatingActionButton friendsListButton = findViewById(R.id.friendsListButton);
         friendsListButton.setOnClickListener(this);
@@ -148,7 +150,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Bundle bundle = new Bundle();
 
         Button button = (Button) view;
-        String roomName = button.getText().toString();
+        String roomName = button.getTag().toString();
 
         bundle.putString("roomName", roomName);
         roomIntent.putExtras(bundle);
