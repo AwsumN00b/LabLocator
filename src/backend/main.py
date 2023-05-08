@@ -125,22 +125,19 @@ ORDER BY time
 
 def room_population(query_list, room=None):
     population = defaultdict(zero)
-    seen_devices = []
-    for query in query_list:
-        if query[2] in seen_devices:
-            continue
-        else:
-            seen_devices.append(query[2])
-            population[query[1]] += 1
+    seen = []
+    for q in query_list:
+        if q[2] not in seen:
+            seen.append(q[2])
+            population[q[1]] += 1
 
     if room:
         return {"population": population[room], "percent": population_percent(room, population[room])}
 
-    pop_pc = {}
+    total_population = {}
     for lab in population.keys():
-        pop_pc[lab] = {"population": population[lab], "percent": population_percent(lab, population[lab])}
-
-    return pop_pc
+        total_population[lab] = {"population": population[lab], "percent": population_percent(lab, population[lab])}
+    return total_population
 
 
 def population_percent(lab, number):

@@ -54,16 +54,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ScanThread scanThread;
     public String currentRoom = "";
     public String[] rooms = {"LG25", "LG26", "LG27", "L114", "L101", "L125", "L128", "L129"};
-    static HashMap<String, Integer> roomViewIds = new HashMap<String, Integer>() {{
-        put("LG25", 1);
-        put("LG26", 2);
-        put("LG27", 3);
-        put("L125", 4);
-        put("L128", 5);
-        put("L129", 6);
-        put("L114", 7);
-        put("L101", 8);
-    }};
+    static HashMap<String, Integer> roomViewIds = new HashMap();
 
 
     @SuppressLint("HardwareIds")
@@ -108,6 +99,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             button1.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
             button2.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+
+            roomViewIds.put(rooms[i], button1.getId());
+            roomViewIds.put(rooms[i+1], button2.getId());
 
             TableRow t = new TableRow(this);
             TableLayout b = findViewById(R.id.buttonPanel);
@@ -160,13 +154,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    public void updateRoomButtonText(String s, String percent){
+    public void updateRoomButtonText(String labName, String percent){
         // update a single button percentage
 
-        int r = roomViewIds.get(s);
-        Button b = findViewById(r);
-        CharSequence d = b.getText() + " | " + percent;
-        b.setText(d);
+        int r = roomViewIds.get(labName);
+        Button button = findViewById(r);
+        CharSequence d = button.getTag() + " | " + percent;
+        button.setText(d);
     }
 
     @SuppressLint("ResourceAsColor")
@@ -286,7 +280,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 response -> {
                     for (String lab: rooms) {
                         try {
-                            updateRoomButtonText(lab, (String) response.getJSONObject(lab).get("percent"));
+                            updateRoomButtonText(lab, response.getJSONObject(lab).getString("percent"));
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
