@@ -1,6 +1,5 @@
 import os
 import sys
-from collections import defaultdict
 
 import mysql.connector
 import uvicorn
@@ -84,8 +83,9 @@ async def get_room_data(room_id):
         if len(room_data) == 0:
             return "LG25", "0%"
         return least_populated_room(room_data)
-    room_data = get_device_locations_in_room_this_hour(room_id)
-    return room_population(room_data, room_id)
+    else:
+        room_data = get_device_locations_in_room_this_hour(room_id)
+        return room_population(room_data, room_id)
 
 
 @app.get("/room/")
@@ -124,20 +124,18 @@ ORDER BY time
 
 
 def room_population(query_list, room=None):
-    population = defaultdict(zero)
-    seen = []
-    for q in query_list:
-        if q[2] not in seen:
-            seen.append(q[2])
-            population[q[1]] += 1
+    seen = {}
+    for _, lab, device_id, _ in query_list:
+        if lab not in seen:
+            seen[lab] = set()
+        seen[lab].add(device_id)
+    population = {room: len(total_devices) for room, total_devices in seen.items()}
 
-    if room:
+    if room is not None:
         return {"population": population[room], "percent": population_percent(room, population[room])}
 
-    total_population = {}
-    for lab in population.keys():
-        total_population[lab] = {"population": population[lab], "percent": population_percent(lab, population[lab])}
-    return total_population
+    return {room: {"population": room_pop, "percent": population_percent(room, room_pop)} for room, room_pop in
+            population.items()}
 
 
 def population_percent(lab, number):
