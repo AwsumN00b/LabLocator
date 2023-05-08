@@ -61,7 +61,7 @@ async def read_app_data(data: RoomData):
     except IndexError:
         raise HTTPException(status_code=500, detail="Internal Server Error")
 
-    log_user_location(result[0], data.device_id, data.timestamp)
+    log_user_location(result[0], data.device_id)
 
     return {"prediction": result[0]}
 
