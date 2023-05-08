@@ -1,12 +1,12 @@
 import os
 import sys
 from collections import defaultdict
-from typing import Annotated
 
 import mysql.connector
 import uvicorn
 from fastapi import FastAPI, HTTPException, Query
 from pydantic import BaseModel
+from typing import Annotated
 
 from model import *
 
@@ -80,7 +80,7 @@ async def get_friends_list():
 @app.get("/room/{room_id}")
 async def get_room_data(room_id):
     if room_id == "quiet":
-        room_data = get_all_devices_this_hour()
+        room_data = room_population(get_all_devices_this_hour())
         if len(room_data) == 0:
             return "LG25", "0%"
         return least_populated_room(room_data)
@@ -134,11 +134,11 @@ def room_population(query_list, room=None):
             population[query[1]] += 1
 
     if room:
-        return population[room], population_percent(room, population[room])
+        return {"population": population[room], "percent": population_percent(room, population[room])}
 
     pop_pc = {}
     for lab in population.keys():
-        pop_pc[lab] = (population[lab], population_percent(lab, population[lab]))
+        pop_pc[lab] = {"population": population[lab], "percent": population_percent(lab, population[lab])}
 
     return pop_pc
 
@@ -172,10 +172,13 @@ ORDER BY time
     return result
 
 
-def least_populated_room(room_data):
-    room_data = room_population(room_data)
-    quiet_lab = min(room_data, key=room_data.get)
-    return quiet_lab, room_data[quiet_lab]
+def least_populated_room(lab_data):
+    quiet_lab = "LG25"
+    for lab in lab_data:
+        if lab_data[lab]["population"] < lab_data[quiet_lab]["population"]:
+            quiet_lab = lab
+
+    return {quiet_lab: lab_data[quiet_lab]}
 
 
 def ping_db():
