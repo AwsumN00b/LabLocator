@@ -33,6 +33,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -53,6 +54,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ScanThread scanThread;
     public String currentRoom = "";
     public String[] rooms = {"LG25", "LG26", "LG27", "L114", "L101", "L125", "L128", "L129"};
+    static HashMap<String, Integer> roomViewIds = new HashMap<String, Integer>() {{
+        put("LG25", 1);
+        put("LG26", 2);
+        put("LG27", 3);
+        put("L125", 4);
+        put("L128", 5);
+        put("L129", 6);
+        put("L114", 7);
+        put("L101", 8);
+    }};
+
 
     @SuppressLint("HardwareIds")
     @Override
@@ -84,6 +96,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             button1.setOnClickListener(this);
             button2.setOnClickListener(this);
+
+            button1.setId(View.generateViewId());
+            button2.setId(View.generateViewId());
 
             button1.setText(rooms[i]);
             button2.setText(rooms[i + 1]);
