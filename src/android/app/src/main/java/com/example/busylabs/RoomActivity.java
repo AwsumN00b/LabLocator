@@ -41,6 +41,7 @@ public class RoomActivity extends AppCompatActivity implements View.OnClickListe
         roomNameTextView = findViewById(R.id.textView_room_name);
         roomNameTextView.setText(roomName);
 
+
         roomMap = findViewById(R.id.room_map);
 
         Drawable id = getResources().getDrawable(getResources().getIdentifier(roomName.toLowerCase()+"_map", "drawable", getPackageName()));
@@ -50,6 +51,7 @@ public class RoomActivity extends AppCompatActivity implements View.OnClickListe
         getFriendsInRoom();
 //        findViewById(R.id.room_info).setVisibility(View.INVISIBLE);
         findViewById(R.id.room_progressBar).setVisibility(View.VISIBLE);
+        findViewById(R.id.view2).setVisibility(View.GONE);
     }
     @Override
     public void onClick(View view) {
@@ -77,6 +79,7 @@ public class RoomActivity extends AppCompatActivity implements View.OnClickListe
     public void showFriendsInRoom(JSONObject json) {
 
         TableLayout table = findViewById(R.id.friendsInRoom);
+        findViewById(R.id.view2).setVisibility(View.VISIBLE);
         TableRow.LayoutParams rowParams = new TableRow.LayoutParams(
                 TableRow.LayoutParams.WRAP_CONTENT,
                 TableRow.LayoutParams.MATCH_PARENT
