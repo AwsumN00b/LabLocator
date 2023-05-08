@@ -178,7 +178,7 @@ def least_populated_room(lab_data):
         if lab_data[lab]["population"] < lab_data[quiet_lab]["population"]:
             quiet_lab = lab
 
-    return {quiet_lab: lab_data[quiet_lab]}
+    return {"lab": quiet_lab, "stats": lab_data[quiet_lab]}
 
 
 def ping_db():

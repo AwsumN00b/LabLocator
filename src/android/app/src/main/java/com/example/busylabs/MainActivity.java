@@ -78,6 +78,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         scanThread = new ScanThread(this);
         scanApList();
+        getAllRoomData();
 
         ImageButton refreshRoomButton = findViewById(R.id.refreshRoomButton);
         refreshRoomButton.setOnClickListener(this);
@@ -139,6 +140,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (R.id.refreshRoomButton == view.getId()) {
             scanApList();
             getBestRoomData();
+            getAllRoomData();
             return;
         } else if (R.id.friendsListButton == view.getId()) {
             Intent friendsIntent = new Intent(this, FriendsActivity.class);
@@ -158,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    public void updateButtonPercentage(String s, String percent){
+    public void updateRoomButtonText(String s, String percent){
         // update a single button percentage
 
         int r = roomViewIds.get(s);
@@ -273,7 +275,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 ROOM_DATA_URL,
                 null,
                 response -> {
-                    // update all the buttons with that data
+                    for (String lab: rooms) {
+                        try {
+                            updateRoomButtonText(lab, (String) response.getJSONObject(lab).get("percent"));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 },
                 Throwable::printStackTrace
         );
