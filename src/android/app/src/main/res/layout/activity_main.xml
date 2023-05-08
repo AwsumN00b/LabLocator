@@ -102,8 +102,7 @@
         android:gravity="center_horizontal"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayoutHeader"
-        tools:visibility="gone">
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayoutHeader">
 
         <TableRow
             android:layout_width="380dp"
@@ -129,20 +128,20 @@
                     android:textAlignment="center"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                     android:textColor="#F8F5F5"
-                    android:textSize="35sp" />
+                    android:textSize="30sp" />
             </LinearLayout>
 
             <ImageButton
                 android:id="@+id/refreshRoomButton"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="76dp"
+                android:layout_height="78dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginHorizontal="24dp"
                 android:layout_marginVertical="12dp"
-                android:background="@drawable/ic_baseline_refresh_24"
                 android:backgroundTint="?attr/colorPrimary"
                 android:contentDescription="@string/refresh_current_room"
                 android:onClick="onClick"
+                android:src="@drawable/ic_baseline_refresh_24"
                 tools:ignore="UsingOnClickInXml" />
 
         </TableRow>
@@ -168,7 +167,7 @@
                     android:layout_width="185dp"
                     android:layout_height="51dp"
                     android:gravity="center"
-                    android:text="@string/least_busy_lab"
+                    android:text="@string/quietest_lab"
                     android:textAlignment="center"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textSize="20sp" />

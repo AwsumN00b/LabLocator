@@ -38,4 +38,7 @@
     <string name="friends_in_room">Friends in room</string>
     <string name="friends">Friends</string>
     <string name="room_map">room map</string>
+    <string name="current_occupancy">Current Occupancy</string>
+    <string name="percentage">Percentage</string>
+    <string name="quietest_lab">Quietest Lab:</string>
 </resources>

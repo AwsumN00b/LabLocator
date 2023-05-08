@@ -83,7 +83,6 @@ public class RoomActivity extends AppCompatActivity implements View.OnClickListe
                 String room = json.getString(name);
                 if(room.equals(roomName)) {
                     table.setVisibility(View.VISIBLE);
-                    findViewById(R.id.view2).setVisibility(View.VISIBLE);
 
                     user.setText(name);
                     user.setTextSize(25);

@@ -83,7 +83,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         refreshRoomButton.setOnClickListener(this);
 
         // set up room buttons
-
         TableRow.LayoutParams lp = new TableRow.LayoutParams(
                 TableRow.LayoutParams.WRAP_CONTENT,
                 TableRow.LayoutParams.MATCH_PARENT
@@ -103,6 +102,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             button1.setText(rooms[i]);
             button2.setText(rooms[i + 1]);
 
+            button1.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+            button2.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+
             TableRow t = new TableRow(this);
             TableLayout b = findViewById(R.id.buttonPanel);
 
@@ -115,6 +117,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             b.addView(t);
         }
+
+        updateButtonPercentage("LG25", "50%");
 
         FloatingActionButton friendsListButton = findViewById(R.id.friendsListButton);
         friendsListButton.setOnClickListener(this);
@@ -152,6 +156,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
+    public void updateButtonPercentage(String s, String percent){
+        // update a single button percentage
+
+        int r = roomViewIds.get(s);
+        Button b = findViewById(r);
+        CharSequence d = b.getText() + " | " + percent;
+        b.setText(d);
+    }
+
     @SuppressLint("ResourceAsColor")
     public LinearLayout mainButtonStyler(Button button) {
         LinearLayout ll = new LinearLayout(this);
@@ -163,7 +176,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         button.setHeight(275);
         button.setWidth(450);
-        button.setTextSize(25);
+        button.setTextSize(22);
 
         // change colour but retain styles
         button.getBackground().setColorFilter(ContextCompat.getColor(this, R.color.purple_200), PorterDuff.Mode.MULTIPLY);
