@@ -99,8 +99,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             t.setGravity(Gravity.CENTER);
 
             b.addView(t);
-
-
         }
 
         FloatingActionButton friendsListButton = findViewById(R.id.friendsListButton);
