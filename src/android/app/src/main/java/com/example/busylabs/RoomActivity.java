@@ -65,6 +65,15 @@ public class RoomActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    public void updateTextViewRoomPercent(String string) {
+        TextView textView = findViewById(R.id.percentageCapacity);
+        textView.setText(string);
+//        findViewById(R.id.room_info).setVisibility(View.VISIBLE);
+        findViewById(R.id.room_progressBar).setVisibility(View.GONE);
+        findViewById(R.id.roomInfoLayout).setVisibility(View.VISIBLE);
+
+    }
+
     public void showFriendsInRoom(JSONObject json) {
 
         TableLayout table = findViewById(R.id.friendsInRoom);
@@ -115,10 +124,18 @@ public class RoomActivity extends AppCompatActivity implements View.OnClickListe
     public void getRoomPopulation() {
         String ROOM_DATA_URL = "http://161.35.43.33:8000/room/" + roomName;
 
-        StringRequest request = new StringRequest(
+        JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.GET,
                 ROOM_DATA_URL,
-                this::updateTextViewRoomPopulation,
+                null,
+                response -> {
+                    try {
+                        updateTextViewRoomPopulation(response.getString("population"));
+                        updateTextViewRoomPercent(response.getString("percent"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                },
                 Throwable::printStackTrace
         );
 

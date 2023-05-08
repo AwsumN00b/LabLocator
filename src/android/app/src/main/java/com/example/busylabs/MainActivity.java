@@ -58,16 +58,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ScanThread scanThread;
     public String currentRoom = "";
     public String[] rooms = {"LG25", "LG26", "LG27", "L114", "L101", "L125", "L128", "L129"};
-    static HashMap<String, Integer> roomViewIds = new HashMap<String, Integer>() {{
-        put("LG25", 1);
-        put("LG26", 2);
-        put("LG27", 3);
-        put("L125", 4);
-        put("L128", 5);
-        put("L129", 6);
-        put("L114", 7);
-        put("L101", 8);
-    }};
+    static HashMap<String, Integer> roomViewIds = new HashMap();
 
 
     @SuppressLint("HardwareIds")
@@ -82,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         scanThread = new ScanThread(this);
         scanApList();
+        getAllRoomData();
 
         ImageButton refreshRoomButton = findViewById(R.id.refreshRoomButton);
         refreshRoomButton.setOnClickListener(this);
@@ -111,6 +103,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             button1.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
             button2.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+
+            roomViewIds.put(rooms[i], button1.getId());
+            roomViewIds.put(rooms[i+1], button2.getId());
 
             TableRow t = new TableRow(this);
             TableLayout b = findViewById(R.id.buttonPanel);
@@ -145,6 +140,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (R.id.refreshRoomButton == view.getId()) {
             scanApList();
             getBestRoomData();
+            getAllRoomData();
             return;
         } else if (R.id.friendsListButton == view.getId()) {
             Intent friendsIntent = new Intent(this, FriendsActivity.class);
@@ -164,13 +160,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    public void updateButtonPercentage(String s, String percent){
+    public void updateRoomButtonText(String labName, String percent){
         // update a single button percentage
 
-        int r = roomViewIds.get(s);
-        Button b = findViewById(r);
-        CharSequence d = b.getText() + " | " + percent;
-        b.setText(d);
+        int r = roomViewIds.get(labName);
+        Button button = findViewById(r);
+        CharSequence d = button.getTag() + " | " + percent;
+        button.setText(d);
     }
 
     @SuppressLint("ResourceAsColor")
@@ -198,9 +194,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         textView.setText(string);
     }
 
-    public void updateTextViewLeastBusyLab(String string) {
+    public void updateTextViewLeastBusyLab(String lab, String percent) {
         TextView textView = findViewById(R.id.quietRoomValueTextView);
-        textView.setText(string.replace("\"", ""));
+        String newText = lab + " | " + percent;
+        textView.setText(newText);
     }
 
     public void scanApList() {
@@ -296,10 +293,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void getBestRoomData() {
         String ROOM_DATA_URL = "http://161.35.43.33:8000/room/quiet";
 
-        StringRequest request = new StringRequest(
+        JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.GET,
                 ROOM_DATA_URL,
-                this::updateTextViewLeastBusyLab,
+                null,
+                response -> {
+                    try {
+                        updateTextViewLeastBusyLab(response.getString("lab"),
+                                response.getJSONObject("stats").getString("percent"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                },
                 Throwable::printStackTrace
         );
 
@@ -314,7 +319,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 ROOM_DATA_URL,
                 null,
                 response -> {
-                    // update all the buttons with that data
+                    for (String lab: rooms) {
+                        try {
+                            updateRoomButtonText(lab, response.getJSONObject(lab).getString("percent"));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 },
                 Throwable::printStackTrace
         );

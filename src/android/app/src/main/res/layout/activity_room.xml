@@ -120,7 +120,7 @@
 
                 <TextView
                     android:id="@+id/percentageCapacity"
-                    android:layout_width="80dp"
+                    android:layout_width="79dp"
                     android:layout_height="60dp"
                     android:layout_marginLeft="50dp"
                     android:background="@drawable/layout_bg"

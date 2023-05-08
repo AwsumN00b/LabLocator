@@ -1,12 +1,12 @@
 import os
 import sys
 from collections import defaultdict
-from typing import Annotated
 
 import mysql.connector
 import uvicorn
 from fastapi import FastAPI, HTTPException, Query
 from pydantic import BaseModel
+from typing import Annotated
 
 from model import *
 
@@ -61,7 +61,7 @@ async def read_app_data(data: RoomData):
     except IndexError:
         raise HTTPException(status_code=500, detail="Internal Server Error")
 
-    log_user_location(result[0], data.device_id, data.timestamp)
+    log_user_location(result[0], data.device_id)
 
     return {"prediction": result[0]}
 
@@ -80,7 +80,7 @@ async def get_friends_list():
 @app.get("/room/{room_id}")
 async def get_room_data(room_id):
     if room_id == "quiet":
-        room_data = get_all_devices_this_hour()
+        room_data = room_population(get_all_devices_this_hour())
         if len(room_data) == 0:
             return "LG25", "0%"
         return least_populated_room(room_data)
@@ -125,22 +125,19 @@ ORDER BY time
 
 def room_population(query_list, room=None):
     population = defaultdict(zero)
-    seen_devices = []
-    for query in query_list:
-        if query[2] in seen_devices:
-            continue
-        else:
-            seen_devices.append(query[2])
-            population[query[1]] += 1
+    seen = []
+    for q in query_list:
+        if q[2] not in seen:
+            seen.append(q[2])
+            population[q[1]] += 1
 
     if room:
-        return population[room], population_percent(room, population[room])
+        return {"population": population[room], "percent": population_percent(room, population[room])}
 
-    pop_pc = {}
+    total_population = {}
     for lab in population.keys():
-        pop_pc[lab] = (population[lab], population_percent(lab, population[lab]))
-
-    return pop_pc
+        total_population[lab] = {"population": population[lab], "percent": population_percent(lab, population[lab])}
+    return total_population
 
 
 def population_percent(lab, number):
@@ -172,10 +169,13 @@ ORDER BY time
     return result
 
 
-def least_populated_room(room_data):
-    room_data = room_population(room_data)
-    quiet_lab = min(room_data, key=room_data.get)
-    return quiet_lab, room_data[quiet_lab]
+def least_populated_room(lab_data):
+    quiet_lab = "LG25"
+    for lab in lab_data:
+        if lab_data[lab]["population"] < lab_data[quiet_lab]["population"]:
+            quiet_lab = lab
+
+    return {"lab": quiet_lab, "stats": lab_data[quiet_lab]}
 
 
 def ping_db():
