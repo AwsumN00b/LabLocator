@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -34,7 +35,10 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -120,6 +124,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             b.addView(t);
         }
+
+        friendButton();
 
 
         FloatingActionButton friendsListButton = findViewById(R.id.friendsListButton);
@@ -250,6 +256,41 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         );
 
         Volley.newRequestQueue(getApplicationContext()).add(request);
+    }
+
+
+    public void friendButton() {
+        String FRIEND_URL = "http://161.35.43.33:8000/friends";
+
+        // request stuff here
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.GET,
+                FRIEND_URL,
+                null,
+                response -> {
+                    Iterator<String> keys = response.keys();
+                    while (keys.hasNext()){
+                        String key = keys.next();
+                        try {
+                            updateButtonColour(response.getString(key));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+
+                },
+                Throwable::printStackTrace);
+
+        Volley.newRequestQueue(getApplicationContext()).add(request);
+
+
+    }
+
+    // updates button colour when friends are in lab
+    public void updateButtonColour(String lab){
+        Button button = findViewById(roomViewIds.get(lab));
+        button.getBackground().setColorFilter(ContextCompat.getColor(this, android.R.color.holo_green_dark), PorterDuff.Mode.MULTIPLY);
     }
 
     public void getBestRoomData() {
