@@ -194,9 +194,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         textView.setText(string);
     }
 
-    public void updateTextViewLeastBusyLab(String string) {
+    public void updateTextViewLeastBusyLab(String lab, String percent) {
         TextView textView = findViewById(R.id.quietRoomValueTextView);
-        textView.setText(string.replace("\"", ""));
+        String newText = lab + " | " + percent;
+        textView.setText(newText);
     }
 
     public void scanApList() {
@@ -257,10 +258,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void getBestRoomData() {
         String ROOM_DATA_URL = "http://161.35.43.33:8000/room/quiet";
 
-        StringRequest request = new StringRequest(
+        JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.GET,
                 ROOM_DATA_URL,
-                this::updateTextViewLeastBusyLab,
+                null,
+                response -> {
+                    try {
+                        updateTextViewLeastBusyLab(response.getString("lab"),
+                                response.getJSONObject("stats").getString("percent"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                },
                 Throwable::printStackTrace
         );
 
