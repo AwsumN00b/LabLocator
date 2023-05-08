@@ -263,6 +263,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Volley.newRequestQueue(getApplicationContext()).add(request);
     }
 
+    public void getAllRoomData() {
+        String ROOM_DATA_URL = "http://161.35.43.33:8000/room/";
+
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.GET,
+                ROOM_DATA_URL,
+                null,
+                response -> {
+                    // update all the buttons with that data
+                },
+                Throwable::printStackTrace
+        );
+
+        Volley.newRequestQueue(getApplicationContext()).add(request);
+    }
+
     private void checkPermissions() {
         for (String perm : this.permissions) {
             if (ActivityCompat.checkSelfPermission(this, perm)

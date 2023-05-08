@@ -82,7 +82,7 @@ async def get_room_data(room_id):
     if room_id == "quiet":
         room_data = get_all_devices_this_hour()
         if len(room_data) == 0:
-            return "LG25"
+            return "LG25", "0%"
         return least_populated_room(room_data)
     room_data = get_device_locations_in_room_this_hour(room_id)
     return room_population(room_data, room_id)
@@ -99,7 +99,7 @@ def get_prediction(ap_list):
     return predict_single_scan(knn_model, converted_scan)
 
 
-def log_user_location(room, device_id, time):
+def log_user_location(room, device_id):
     ping_db()
     sql = "INSERT into user_location_table (room, deviceID) VALUES (%s, %s)"
     val = (room, device_id)
@@ -133,7 +133,28 @@ def room_population(query_list, room=None):
             seen_devices.append(query[2])
             population[query[1]] += 1
 
-    return population[room] if room else population
+    if room:
+        return population[room], population_percent(room, population[room])
+
+    pop_pc = {}
+    for lab in population.keys():
+        pop_pc[lab] = (population[lab], population_percent(lab, population[lab]))
+
+    return pop_pc
+
+
+def population_percent(lab, number):
+    lab_capacity = {
+        "L125": 70,
+        "L128": 60,
+        "L129": 40,
+        "LG25": 50,
+        "LG26": 50,
+        "LG27": 40,
+        "L114": 59,
+        "L101": 69
+    }
+    return str(round((number / lab_capacity[lab]) * 100)) + "%"
 
 
 def get_all_devices_this_hour():
@@ -153,7 +174,8 @@ ORDER BY time
 
 def least_populated_room(room_data):
     room_data = room_population(room_data)
-    return min(room_data, key=room_data.get)
+    quiet_lab = min(room_data, key=room_data.get)
+    return quiet_lab, room_data[quiet_lab]
 
 
 def ping_db():
